@@ -67,6 +67,32 @@ IME is the central hub that connects to all the tools you use
   repo you control. No proprietary formats. No lock-in. Stop
   using any service and you keep everything.
 
+## What Changes in Your Workflow
+
+IME doesn't just store knowledge — it transforms how you work
+with AI tools.
+
+**Before IME:** You think through an idea in Claude, then
+manually copy the output, switch to GitHub, paste it in, commit
+it, then tell Replit to pull it. You download files from one
+tool, upload them to another. You are the copy-paste layer
+between every tool.
+
+**With IME:** You think through an idea in Claude, and Claude
+pushes the spec directly to your GitHub repo through
+[GitBridge](https://github.com/ioTus/gitbridge-mcp). Replit
+pulls it and builds. Results flow back through GitHub to Claude.
+Your AI creates files, pushes documents, generates issues, and
+organizes everything — without you touching a single file
+manually.
+
+You stop being the human clipboard between your tools.
+
+> **Current limitation:** File operations are currently limited
+> to text-based files (markdown, code, configs). Support for
+> images, videos, spreadsheets, and other binary assets is on
+> the roadmap.
+
 ## How It Works
 
 IME is a repository with two layers:
@@ -108,25 +134,32 @@ personal IME — yours to customize, yours to own.
 
 ### 2. Connect it to your AI tools
 
-IME connects to any AI tool through MCP (Model Context
-Protocol) or direct file access:
+IME lives in your GitHub repo. AI tools connect to it
+through MCP (Model Context Protocol), which gives them
+read and write access to your knowledge base.
+
+For web-based AI tools (Claude Chat, ChatGPT), you need
+an MCP bridge server like
+[GitBridge](https://github.com/ioTus/gitbridge-mcp) that
+sits between the AI tool and your GitHub repo. For local
+tools (Claude Code, Cursor), you can work with a local
+clone of the repo directly.
 
 | Tool | Connection Method |
 |------|-------------------|
-| Claude Chat | MCP custom connector (via GitBridge) |
-| Claude Code | Local clone + CLAUDE.md reference |
-| Claude Cowork | Local folder + project instructions |
-| ChatGPT | MCP app (Developer Mode) |
+| Claude Chat | [GitBridge](https://github.com/ioTus/gitbridge-mcp) as MCP custom connector |
+| Claude Code | Local clone + CLAUDE.md pointing to IME.md |
+| Claude Cowork | Local clone as project folder |
+| ChatGPT | [GitBridge](https://github.com/ioTus/gitbridge-mcp) as MCP app (Developer Mode) |
 | Gemini CLI | MCP server in settings.json |
-| Grok / xAI | Remote MCP in API config |
-| Cursor | .mcp.json configuration |
-| Windsurf | MCP configuration |
+| Grok / xAI | Remote MCP server URL |
+| Cursor | Local clone + .mcp.json config |
+| Windsurf | Local clone + MCP config |
 
-You need an MCP bridge server (like
-[GitBridge](https://github.com/ioTus/gitbridge-mcp)) to
-connect web-based AI tools to your GitHub repo. For local
-tools (Claude Code, Cursor), you can use a local clone
-directly.
+Once connected, your AI tool can read your identity, your
+project context, your roles, and your knowledge — and it can
+write back: creating files, updating project state, pushing
+specs, and filing issues directly in your repo.
 
 ### 3. Say "Set up IME"
 
@@ -135,9 +168,10 @@ In your first conversation with any connected tool, type
 your instance:
 
 - What's your name?
-- What are you working on right now?
-- What do you want to keep track of?
-- What tools are you using?
+- What are you working on right now — work, personal, anything?
+- What do you want to keep track of that you currently lose
+  track of?
+- What tools are you using that you wish talked to each other?
 
 Your answers get written into the IME structure automatically.
 By the end of the conversation, you have a fully personalized
@@ -148,7 +182,13 @@ file editing.
 
 From now on, every connected AI tool has your full context.
 Your projects, your preferences, your knowledge — always
-available, always up to date.
+available, always up to date, across every tool you use.
+
+No more re-explaining yourself. No more downloading and
+uploading files between tools. No more losing track of what
+you decided three conversations ago on a different platform.
+
+IME becomes your knowledge operating system.
 
 ## The IME Primitive Stack
 
@@ -206,23 +246,14 @@ by conversation.
 - **Not a note-taking app.** Notion and Obsidian are for
   humans reading and writing notes. IME is for AI tools
   reading and writing operational context. Different problem.
-- **Not an agent framework.** OpenClaw and similar tools
-  execute tasks. IME is the knowledge layer underneath
-  them — it coordinates what they know, not what they do.
+- **Not an agent framework.** Agent frameworks execute tasks.
+  IME is the knowledge layer underneath them — it coordinates
+  what they know, not what they do.
 - **Not a replacement for platform memory.** Claude and
   ChatGPT have their own memory systems. IME supplements
   or replaces them with something portable that works
   across every platform.
 
-## Built With
-
-IME was built by [MaGe Digital](https://magedigital.com) to
-solve a real workflow problem: coordinating product development
-across Claude, Replit, GitHub, and multiple AI tools. Every
-feature exists because someone needed it.
-
-The framework is in daily production use. It works.
-
 ## License
 
-*License TBD — currently private.*
+*License TBD*
