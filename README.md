@@ -156,6 +156,13 @@ clone of the repo directly.
 | Cursor | Local clone + .mcp.json config |
 | Windsurf | Local clone + MCP config |
 
+
+> **Scope note:** IME is designed to work with any AI tool that can
+> read and write files in a git repository. The current implementation
+> is validated with Claude Chat via GitBridge. Support for other tools
+> (Claude Code, Cursor, Windsurf, ChatGPT, Gemini) is in active testing
+> and will be documented in `framework/adapters/` as each is verified.
+
 Once connected, your AI tool can read your identity, your
 project context, your roles, and your knowledge — and it can
 write back: creating files, updating project state, pushing
