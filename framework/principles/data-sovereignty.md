@@ -8,6 +8,10 @@ Data sovereignty is a fundamental human right. No one should be
 locked into a platform because their context, memory, and identity
 are trapped there.
 
+This is what the **Identity** in IME (Identity, Memory, Exchange)
+defends. The framework exists to make identity portable and
+user-owned by default — not platform-owned by default.
+
 ## What this means in practice
 
 - User data is stored in formats the user controls (markdown files
