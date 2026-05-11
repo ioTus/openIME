@@ -3,16 +3,19 @@
 > Wherever you go, you are still you. Your AI tools should
 > know that.
 
-**IME** — *Identity Memory Exchange* — is the framework.
-**openIME** (this repository) is its open-source reference
-implementation. Throughout this document, *IME* refers to the
-framework, philosophy, and spec; *openIME* refers to this repo
-specifically.
+**openIME** is the portable identity layer for AI. It tells
+every tool you use — Claude, ChatGPT, Cursor, Gemini, Replit,
+Midjourney, or whatever ships next month — *who you are and
+how you work*. Plain markdown files in a repo you own.
+Readable by any AI. Yours forever.
 
-Three words, each load-bearing: **Identity** — who you are.
-**Memory** — what you know. **Exchange** — how it moves between
-the tools you use. Together they describe what IME does. *I Am
-Me* is the principle the framework defends.
+**IME** stands for **Identity, Memory, Exchange** — three
+things every AI tool needs from you and currently isolates
+from you. With IME, you own all three.
+
+Throughout this document, *IME* refers to the framework,
+philosophy, and spec; *openIME* refers to this repository — its
+open-source reference implementation under Apache 2.0.
 
 ---
 
@@ -46,16 +49,16 @@ they hold, the harder it is to leave.
 
 IME flips the model.
 
-**I Am Me** is a portable knowledge layer that you own. It's
-a structured set of plain files — markdown documents in a
-repository you control — that any AI tool can read from and
-write to. Your identity, your knowledge, your projects, your
-preferences, your workflows: all portable, all yours.
+**I Am Me** is a portable identity layer that you own. A
+structured set of plain markdown files in a repository you
+control, that any AI tool can read from and write to. Your
+identity, your knowledge, your projects, your preferences, your
+workflows: all portable, all yours.
 
 Connect IME to Claude. Connect it to ChatGPT. Connect it to
-Cursor, Gemini, Grok, or whatever comes next. Every tool
-immediately knows who you are, what you're working on, and
-how you like to work.
+Cursor, Gemini, Grok, Replit, Midjourney, or whatever comes
+next. Every tool immediately knows who you are, what you're
+working on, and how you like to work.
 
 Switch tools? Your context follows. Add a new tool? It's
 smart on day one. Drop a tool? Nothing is lost.
@@ -65,15 +68,20 @@ new tool you encounter.**
 
 ## What IME Is
 
-IME is the central hub that connects to all the tools you use
-— coordinating knowledge, context, inputs, and outputs. It's:
+IME is the layer that sits between you and every AI tool you
+use — telling each one who you are, what you're working on,
+and how you want to work. It's:
 
-- **Your second brain** — not just for work. Projects, hobbies,
-  recipes, finances, creative endeavors, life goals. If it
-  matters to you, it has a home in IME.
-- **Your coordination layer** — context flows between tools
-  through IME. An insight in one conversation becomes available
-  in every other tool.
+- **Your identity layer** — your name, your role, your
+  principles, your communication style, your preferences. The
+  things that make you *you* across every conversation.
+- **Your memory layer** — projects, hobbies, recipes, finances,
+  creative endeavors, life goals. Reference material, decisions
+  you've made, context that matters. If it matters to you, it
+  has a home in IME.
+- **Your exchange layer** — context flows between tools through
+  IME. An insight in one conversation becomes available in every
+  other tool. No more being the human clipboard between AIs.
 - **Your self-owned data layer** — plain markdown files in a
   repo you control. No proprietary formats. No lock-in. Stop
   using any service and you keep everything.
