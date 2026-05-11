@@ -18,6 +18,46 @@ verbatim.
 
 When any MCP tool call fails:
 
+### Step 1 — Attempt Reconnect (Reconnect button approach)
+
+1. Call `search_mcp_registry` for the connector.
+2. If the connector is found with `connected: false`, call
+   `suggest_connectors` with its UUID to surface a Reconnect
+   button.
+3. Tell the user to hit the button.
+4. Wait for confirmation, then retry tool access.
+
+This handles a stale OAuth session where the server is healthy
+but the client-side token has expired.
+
+### Step 1b — Full Disconnect and Reconnect
+
+If Step 1 doesn't apply or doesn't restore function — specifically:
+
+- `search_mcp_registry` returns no entry for the connector, OR
+- The connector appears present but writes fail with "additional
+  permissions" while reads still work, OR
+- The Reconnect button approach completes but tool calls
+  continue to fail
+
+Direct the user to perform a full disconnect and reconnect:
+
+1. Open Claude Settings → Connectors
+2. Find the affected connector
+3. Disconnect (or Remove) it
+4. Add it back with "Add custom connector" using the same URL
+5. Complete the OAuth flow
+6. Set all required tools to "Always allow"
+7. Retry the failing operation in the same thread
+
+This forces a fresh OAuth flow and resolves cases where Step 1
+cannot. The affected thread typically resumes function without
+needing a new conversation.
+
+### Step 2 — Degraded Mode (last resort)
+
+If Steps 1 and 1b both fail to restore function:
+
 1. Announce: "Bridge is down. Switching to degraded mode —
    all work will be staged here and pushed when it's back."
 2. Draft all files/issues exactly as they'd appear in the repo.
