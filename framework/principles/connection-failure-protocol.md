@@ -33,11 +33,35 @@ Never skip approval. Never spam retries. Never lose the queue.
 
 ## Diagnose (on request)
 
-1. Direct the user to visit /health on the bridge server
-2. If unreachable: server is down
-3. If health shows errors: report the specific failure
-4. If health is green but tools fail: connector-side issue —
-   remove/re-add connector in Settings
+Diagnosis order, fastest-recovery-first:
+
+### 1. Disconnect and reconnect the connector
+
+If write tools fail with "additional permissions" while reads
+still work, OR if `search_mcp_registry` returns no entry for
+a connector that should be present — the first action is a
+full disconnect and reconnect of the connector in the Claude
+connectors page. This resolves an OAuth state corruption that
+can affect a single thread while leaving the global connector
+working in other threads.
+
+Do this BEFORE deeper investigation. The other diagnosis steps
+are for cases where reconnect doesn't help.
+
+### 2. Check bridge server health
+
+Direct the user to visit `/health` on the bridge server.
+- Unreachable: server is down. Switch to degraded mode.
+- Health shows errors: report the specific failure.
+- Health is green but tools still fail after reconnect:
+  bridge-side configuration or upstream Anthropic issue.
+
+### 3. Check tool permissions
+
+If reconnect and bridge health checks pass, verify in the
+Claude Settings → Connectors → [connector] panel that all
+required tools are set to "Always allow". This is rarely the
+actual cause but is fast to verify.
 
 ## Reconnection
 
