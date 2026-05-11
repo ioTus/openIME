@@ -1,9 +1,14 @@
-# IME.md — I Am Me
+# IME.md — Identity Memory Exchange
 
 > **Read this file first.** This is the operating manual for working
 > within this knowledge system. Every rule here applies to every
 > session, every conversation, regardless of which AI platform is
 > reading it.
+
+IME stands for **Identity, Memory, Exchange** — three things every
+AI tool needs from you, and currently isolates from you. *I Am Me*
+is the principle this framework defends: that your identity, your
+memory, and the exchange between tools all belong to you.
 
 ---
 
