@@ -46,30 +46,49 @@ At the same time, read tools (`read_file`, `check_file_status`,
 - Earlier in the same affected thread, writes worked normally
   before the failure began
 
-**What does NOT work:**
-- Waiting for the state to clear on its own
-- Re-running `search_mcp_registry` or `suggest_connectors`
-- Toggling tool permissions in the Claude settings panel
-- Retrying the failed write multiple times
-- Running additional `tool_search` calls for the failing tool
+**Root cause (confirmed via bridge server logs):** In the
+affected thread, Claude is sending POST requests to the MCP
+endpoint with the Authorization header missing entirely. The
+bridge server correctly rejects these with HTTP 401
+(`reason: missing_header`). Claude's UI translates the 401 into
+the "additional permissions" error message, which misleads
+diagnosis toward the permissions panel.
 
-**What works:**
-- Full disconnect and reconnect of the GitBridge connector in
-  the Claude connectors page (Settings → Connectors → GitBridge
-  → Disconnect, then Add custom connector → reconnect with the
-  same URL). This triggers a fresh OAuth flow and restores
-  write functionality to the affected thread.
+The bug is in Claude's per-conversation MCP request construction
+— the bearer token that should be attached to outbound calls is
+being dropped for some calls in some long-running threads. Reads
+often retain the header (different code path or cached state) and
+continue to work, which is why the failure appears partial.
 
-**Important:** The disconnect-reconnect resolves the affected
-thread. It is not necessary to start a new thread. Earlier
-guidance suggesting the thread was unrecoverable was incorrect.
+**What works (sometimes):**
+- Full disconnect and reconnect of the connector in the Claude
+  connectors page. This triggers a fresh OAuth flow and, in some
+  cases, restores the affected thread to working state.
+
+**What works (always):**
+- Starting a new Claude conversation. The corrupted per-thread
+  state does not carry over. Writes work immediately in the new
+  thread.
+
+**Recovery order:**
+1. Try disconnect-reconnect first — it's cheap and sometimes
+   resolves the affected thread.
+2. If that doesn't restore writes, abandon the thread and
+   continue work in a new conversation. The corruption is
+   per-conversation; it does not survive into new threads.
+
+**Important:** Earlier guidance suggesting either that
+disconnect-reconnect always works OR that the thread is
+definitively unrecoverable were both incomplete. The truthful
+state: disconnect-reconnect sometimes works, and when it does
+it's the fastest fix. When it doesn't, a new thread is the
+guaranteed recovery path.
 
 **Diagnosis cost:** This failure mode is easy to misread. The
 error message implies missing permissions, which sends users to
 the permissions panel (where everything looks correct). The
-actual fix is at the connector authentication layer, not the
-permission layer. When you see this error, attempt
-disconnect-reconnect first before deeper investigation.
+actual problem is at the OAuth/session layer, evidenced only
+from server-side logs showing 401 responses to header-less POSTs.
 
 ### Connector entirely absent from registry
 
