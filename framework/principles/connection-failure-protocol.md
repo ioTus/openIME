@@ -18,6 +18,13 @@ verbatim.
 
 When any MCP tool call fails:
 
+> **Before this:** See `framework/adapters/claude.md` Known
+> Failure Modes section for the recovery sequence when the
+> error message says "additional permissions" but tool
+> permissions are correctly set. That's a specific failure
+> pattern with a specific fix. This section covers the
+> general case when those steps don't resolve the issue.
+
 ### Step 1 — Attempt Reconnect (Reconnect button approach)
 
 1. Call `search_mcp_registry` for the connector.
