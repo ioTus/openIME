@@ -41,6 +41,17 @@ repos, or anything else that lives outside the hub.
 The hub is always readable. Writes go to whichever repo is the
 active workspace. Never write to both in the same operation.
 
+### Platform preferences
+
+Some AI platforms support global preferences that apply to every
+conversation (e.g., User Preferences on Claude, Custom Instructions
+on ChatGPT). When available, the hub declaration, connection protocol,
+and working discipline can be set once at the global level rather than
+repeated in every project prompt. This keeps per-project configuration
+to a single line pointing at a `_config.md` file. See
+`framework/adapters/` for platform-specific setup guidance.
+
+
 ### Switching to a spoke
 
 When the user names a spoke repo or directs you to work in one:
@@ -138,6 +149,11 @@ knowledge/          ← personal content, organized by PARA framework
   areas/            ← ongoing responsibilities not tied to a project
     people/         ← stakeholder and collaborator context
   resources/        ← topics of interest, reference library
+    signal-library/ ← curated signals: articles, podcasts, tech stacks,
+                       company case studies, and distilled principles.
+                       Indexed at _index.md. Roles query this at session
+                       start for substantive work. Empty by default —
+                       populated intentionally by the user over time.
   archive/          ← inactive items from the above three categories
   _context/         ← save-memory snapshots (system utility, not PARA)
 ```
@@ -187,10 +203,34 @@ These rules govern every write operation. No exceptions.
 2. **Confirm target repo before writing.** Before your first write
    in any session, state the target repo. Do not write to any repo
    the user hasn't confirmed.
-3. **Read before you write.** Before updating any existing file,
-   read the current version. Don't assume — the repo may have
-   changed since your last session.
+3. **Read before you write.** Read the current file state if you
+   do not already have it in context from this session. Note the
+   SHA from the response. Before editing a file already in context,
+   use `check_file_status` to verify the SHA hasn't changed since
+   your last read. SHA matches → proceed. SHA differs → full
+   `read_file` before editing. Verification reads after `patch_file`
+   calls are expected and acceptable. Do not re-read files already
+   in context unless `check_file_status` indicates the SHA changed.
 4. **One commit per logical unit.** Don't bundle unrelated changes.
+
+### Tool selection for writes
+
+**patch_file** — default for edits to existing files when:
+- The change is localized (section replacement, insertion, deletion)
+- The file is already in context this session
+- Full reconstruction would send significant unchanged content
+
+**push_multiple_files** — use when:
+- Creating new files (no existing content)
+- Multiple files must land in one atomic commit
+- The change is a near-complete rewrite of the file
+
+**write_file** — single-file equivalent of push_multiple_files.
+Use for new single files or full rewrites. Always read first.
+
+**Never reconstruct a full file just to make a small edit.**
+If you can identify a unique match string for the change,
+patch_file is the right tool.
 
 ---
 
@@ -248,6 +288,26 @@ suggesting where things belong. See
 
 Not every task needs a specialized role, but the knowledge
 layer is always active.
+
+
+### Signal library integration
+
+Roles are the primary access point to the signal library —
+curated reference material in `knowledge/resources/signal-library/`.
+Each role declares which signal library tags are relevant to its
+domain. When that role is active for substantive work, it fetches
+`knowledge/resources/signal-library/_index.md`, filters for its
+tags, and surfaces relevant signals before proceeding.
+
+This is a lazy-load pattern: the index is lightweight (one row
+per source) and fetched fresh each session. Full entries are
+loaded only when a specific signal is directly relevant to the
+task. No role bulk-loads the library.
+
+The signal library is always empty for new IME instances. It
+grows as the user intentionally adds signals over time. The
+structure and integration are in place from day one; the content
+accrues through deliberate curation — never automatically.
 
 ---
 
@@ -321,6 +381,8 @@ Previous snapshots are archived as `knowledge/_context/YYYY-MM-DD.md`
 - Don't bundle unrelated changes
 - Don't write personal content into `framework/` (keep it in `knowledge/`)
 - Don't overwrite another agent's files without coordination
+- Don't add to the signal library automatically — intake is always
+  user-initiated
 
 ---
 
