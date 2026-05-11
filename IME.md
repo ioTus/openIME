@@ -372,6 +372,53 @@ Previous snapshots are archived as `knowledge/_context/YYYY-MM-DD.md`
 
 ---
 
+## Framework Maintenance
+
+### Changelog
+
+**Any change that could affect how the AI operates must be logged**
+in `framework/changelog.md` immediately after it is committed.
+Cosmetic edits (typos, rewording for clarity without meaning change)
+do not require an entry.
+
+> **Why:** When behavior degrades gradually, the cause is often a
+> framework change made weeks earlier. The changelog makes that
+> connection traceable. Without it, debugging requires reading every
+> file looking for what shifted — slow and unreliable.
+
+**The changelog is a diagnostic tool, not operating context.**
+Do not read it at session start. Read it only when the user
+explicitly asks — typically when something isn't working as expected.
+
+> **Why:** Loading the changelog every session adds overhead with no
+> benefit during normal operation. Its value is entirely in the
+> exceptional case. Keeping it out of the startup sequence preserves
+> session efficiency while making it available on demand.
+
+### Changelog entry format
+
+Each entry must include: date, short title, files affected, change
+type, status, what changed, and why. See `framework/changelog.md`
+for the format and all entries.
+
+### openIME promotion discipline
+
+Changes land in the private IME repo first. Each changelog entry
+carries a `Status` field: `private-only` or `promoted (YYYY-MM-DD)`.
+
+Monthly audit: scan the changelog for entries older than 30 days
+still marked `private-only`. For each: if it's working well,
+promote the change to `ioTus/openime` and update the status field.
+If it's not working well, revise or revert before promoting.
+
+> **Why:** openIME is the stable public reference. Private IME is
+> where experiments land. This discipline ensures openIME only
+> receives changes that have been validated in real use — not just
+> designed in theory.
+
+---
+
+
 ## What Not To Do
 
 - Don't write without approval
