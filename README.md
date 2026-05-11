@@ -1,7 +1,18 @@
-# IME — I Am Me
+# I Am Me
 
 > Wherever you go, you are still you. Your AI tools should
 > know that.
+
+**IME** — *Identity Memory Exchange* — is the framework.
+**openIME** (this repository) is its open-source reference
+implementation. Throughout this document, *IME* refers to the
+framework, philosophy, and spec; *openIME* refers to this repo
+specifically.
+
+Three words, each load-bearing: **Identity** — who you are.
+**Memory** — what you know. **Exchange** — how it moves between
+the tools you use. Together they describe what IME does. *I Am
+Me* is the principle the framework defends.
 
 ---
 
@@ -72,11 +83,14 @@ IME is the central hub that connects to all the tools you use
 IME doesn't just store knowledge — it transforms how you work
 with AI tools.
 
-**Before IME:** You think through an idea in Claude, then
-manually copy the output, switch to GitHub, paste it in, commit
-it, then tell Replit to pull it. You download files from one
-tool, upload them to another. You are the copy-paste layer
-between every tool.
+**Before IME:** You think through an idea in Claude. Claude
+can't write to GitHub, so you copy the output by hand and
+paste it into Replit. Replit replies with code. You copy
+that back into Claude. Then back to Replit. Back and forth.
+You're the monkey in the middle — the human clipboard between
+every AI tool you use. Most "AI workflows" today are exactly
+this: a person frantically context-switching between tools
+that can't talk to each other.
 
 **With IME:** You think through an idea in Claude, and Claude
 pushes the spec directly to your GitHub repo through
@@ -263,4 +277,14 @@ by conversation.
 
 ## License
 
-*License TBD*
+**Apache License 2.0** — see [LICENSE](./LICENSE) for the full text.
+
+**TL;DR:** Free to use, fork, modify, and build on — including
+commercially. Keep the copyright notice, note your changes, and
+you're set. Includes a patent grant protecting users from
+contributor patent claims.
+
+This framework is built on the principle that **data sovereignty
+is a fundamental human right.** Your AI context, memory, and
+identity belong to you. The license reflects that — openIME is
+free, will remain free, and is yours to do with as you see fit.
