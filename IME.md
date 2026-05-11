@@ -6,17 +6,19 @@
 > reading it.
 
 IME stands for **Identity, Memory, Exchange** — three things every
-AI tool needs from you, and currently isolates from you. *I Am Me*
-is the principle this framework defends: that your identity, your
-memory, and the exchange between tools all belong to you.
+AI tool needs from you and currently isolates from you. With IME,
+you own all three. *I Am Me* is the principle this framework
+defends: your identity, your memory, and the exchange between
+tools all belong to you.
 
 ---
 
 ## What This Is
 
-This is your persistent knowledge layer — a structured repository
-of identity, principles, roles, and working context that any AI
-assistant can read to operate with full context from the first message.
+This is your portable identity layer for AI — a structured
+repository of identity, memory, principles, roles, and working
+context that any AI assistant can read to operate with full
+context from the first message.
 
 This repo follows the IME (I Am Me) convention: a portable, file-based
 system for AI-assisted work where the human owns their data and can
