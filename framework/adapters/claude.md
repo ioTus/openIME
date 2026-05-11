@@ -65,17 +65,19 @@ continue to work, which is why the failure appears partial.
   connectors page. This triggers a fresh OAuth flow and, in some
   cases, restores the affected thread to working state.
 
-**What works (always):**
-- Starting a new Claude conversation. The corrupted per-thread
-  state does not carry over. Writes work immediately in the new
-  thread.
+**What usually works:**
+- Starting a new Claude conversation. In most observed cases the
+  corrupted per-thread state does not carry over. There are
+  anecdotal reports of write failures persisting into new
+  conversations, but it's not confirmed whether those cases share
+  this same root cause or are a different failure mode.
 
 **Recovery order:**
 1. Try disconnect-reconnect first — it's cheap and sometimes
    resolves the affected thread.
 2. If that doesn't restore writes, abandon the thread and
-   continue work in a new conversation. The corruption is
-   per-conversation; it does not survive into new threads.
+   continue work in a new conversation. This is the most reliable
+   recovery path observed, though not yet verified as universal.
 
 **Important:** Earlier guidance suggesting either that
 disconnect-reconnect always works OR that the thread is
