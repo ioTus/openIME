@@ -1,4 +1,4 @@
-# I Am Me
+# I Am Me (IME)
 
 > Wherever you go, you are still you. Your AI tools should
 > know that.
