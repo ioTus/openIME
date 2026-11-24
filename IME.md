@@ -294,8 +294,8 @@ At the beginning of every session:
 1. **Read this file** (`IME.md`)
 2. **Read the project config** — if the project layer (system
    prompt, or project `CLAUDE.md` on Claude Code) references
-   a `_config.md`, read it. Load the default role and key files
-   specified there.
+   a `_config.md`, read it. Load the key files and the default
+   role it names; that role is active from the first message.
 3. **Read `framework/roles/_index.md`** for available roles
 4. **Note available skills** — if `framework/skills/` contains
    skill folders, register what's available. Don't load them —

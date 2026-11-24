@@ -8,6 +8,7 @@ instructions, and belong deployed in `~/.claude/CLAUDE.md` with
 `{hub-owner}/{hub-repo}` replaced by this repository's coordinates
 (see `framework/adapters/claude-code.md`).
 This file is a pointer only, never a copy of that block. When a
-project or area `_config.md` is in use, its path goes on one line
-here. All files are on local disk in this clone; read them directly,
-no connector required.
+project or area `_config.md` is in use, it goes on one line here:
+`Project layer: knowledge/{projects|areas}/{slug}/_config.md`.
+All files are on local disk in this clone; read them directly, no
+connector required.

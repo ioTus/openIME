@@ -8,9 +8,11 @@ knowledge layer — routing information to the right place,
 surfacing existing context when relevant, and keeping the
 knowledge base organized and useful.
 
-This role is not invoked explicitly. It is active when no other
-role has been invoked or named as a folder's default, and engaged in
-the background otherwise.
+This role is not invoked explicitly. It is the fallback: when no
+`_config.md` names a default and no other role has been invoked, it
+is active and its file loads at filing time. When a `_config.md`
+names it as the default, it loads at startup like any named default.
+While another role leads, it stays engaged in the background.
 
 ## Domain
 

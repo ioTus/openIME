@@ -51,10 +51,7 @@ Then proceed only on explicit confirmation.
 
 Determine which situation the user is in:
 
-- **New setup** — Nothing under `knowledge/` is the user's yet;
-  the durable layer (the System Core block from
-  `framework/system-core.md`) may have just been deployed or may
-  still need to be.
+- **New setup** — Nothing under `knowledge/` is the user's yet.
 - **Connecting existing** — Workspace already has context,
   files, or a system prompt. Hooking it into IME.
 - **Adding a folder** — `knowledge/` already holds the user's
@@ -362,12 +359,16 @@ Check whether the durable layer is deployed: on Claude Code, read
 skipped); on other platforms ask, since the AI cannot read its own
 prompt. If not, help set it up from the adapter: the
 universal block plus the platform's own section, pasted with its
-version stamp and its §Hub line naming this repository. Once it is
-confirmed, put the one-line
+version stamp and its §Hub line naming this repository. Once the
+durable layer is confirmed deployed — by reading it on Claude Code,
+by the user's answer elsewhere — put the one-line
 project layer in place: on Claude Code it is a file in the clone, so
-add the line to the project `CLAUDE.md` yourself (Tier 3: show the
-edit, get the yes) and read it back; on claude.ai and ChatGPT hand
-the line over and say exactly where it goes.
+add the line `Project layer: knowledge/{projects|areas}/{slug}/_config.md`
+at the end of the project `CLAUDE.md` yourself (Tier 3: show the
+edit, get the yes) and read it back — the `Project layer:` label
+marks it among the file's other lines; on claude.ai and ChatGPT hand
+over the bare path, since the Project instructions field holds
+nothing else, and say exactly where it goes.
 
 **Platform with no durable layer:**
 
@@ -408,5 +409,7 @@ Format:
 >    in your project `CLAUDE.md`; on claude.ai paste it into the
 >    Claude Project's instructions; on ChatGPT into the Project's
 >    instructions
-> 2. Start a new conversation — IME will be fully active
+> 2. If this clone has no remote yet, your IME exists only on this
+>    disk: create a private remote and push when ready
+> 3. Start a new conversation — IME will be fully active
 >    from the first message

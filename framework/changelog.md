@@ -12,7 +12,8 @@ session start. Read only when the user explicitly asks.
 ## Entry format
 
 `framework/maintenance.md` §Changelog entry format. Entries below
-record the state this template shipped in; your own entries go on top.
+record the state this template shipped in; your own entries go above
+the shipped entry, below this section.
 
 ---
 

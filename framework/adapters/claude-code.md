@@ -10,7 +10,7 @@ is deployed separately here.
 | Layer | Location | Content |
 |-------|----------|---------|
 | 1 — durable | `~/.claude/CLAUDE.md` (user-level, loads in **every** project) | The universal block plus the `## Platform: Claude` section from `framework/system-core.md`, deployed with its version stamp, its §Hub line naming this hub |
-| 2 — project | `CLAUDE.md` in the project directory (the folder Claude Code is opened in) | The `_config.md` pointer — one line, `knowledge/{projects\|areas}/{slug}/_config.md` — plus any project-specific context. Optional; with no pointer the hub is the default workspace |
+| 2 — project | `CLAUDE.md` in the project directory (the folder Claude Code is opened in) | The `_config.md` pointer — one line, `Project layer: knowledge/{projects\|areas}/{slug}/_config.md` — plus any project-specific context. Optional; with no pointer the hub is the default workspace |
 | repo root | `CLAUDE.md` at the clone's root | Pointer stub only: read `IME.md`, durable rules in `framework/system-core.md`. Never a copy of the block. Cloud sessions have no `~/.claude/`, so this stub is all they see before `IME.md` |
 
 **Working in a spoke clone:** the hub's `IME.md` is read from the
@@ -57,7 +57,7 @@ Tier 2 to create, Tier 3 to update, Tier 4 to delete) do not change.
 | 4 — one commit per logical unit | `git add` the files of one approved change by path, never `-A`. A new file and its `_index.md` row go in the same commit (`IME.md` §Directory indexes) |
 | 5 — deletions and renames verified | `git rm` and `git mv` record the real operation; `git show --stat HEAD` confirms the old path is gone |
 | §Transport — never reproduce unrelated content | Edit the file in place on disk; nothing is retyped. An edit tool that takes a match string must match exactly once |
-| 7 — verify after writing | After the push: `git fetch`, then `git log -1 --stat origin/<branch>` shows the commit on the remote and `git status -sb` shows the branch level with it. A write is done when the remote shows it, not when the command returns. A clone with no remote yet: `git log -1 --stat` and a clean `git status` are the read-back, and the push step applies once a remote exists |
+| 7 — verify after writing | After the push: `git fetch`, then `git log -1 --stat origin/<branch>` shows the commit on the remote and `git status -sb` shows the branch level with it. A write is done when the remote shows it, not when the command returns. A clone with no remote yet: `git log -1 --stat` and a clean `git status` are the read-back, and the push step applies once a remote exists. Until then every commit is local to this disk: create a private remote and push when ready |
 
 Commit prefixes, and the opening and trailer of an issue comment,
 are the System Core's §Attribution (`framework/system-core.md`). A
