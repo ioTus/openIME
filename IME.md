@@ -154,9 +154,9 @@ knowledge/          ← personal content, organized by PARA framework
   resources/        ← topics of interest, reference library
     signal-library/ ← curated signals: articles, podcasts, tech stacks,
                        company case studies, and distilled principles.
-                       Indexed at _index.md. Roles query this at session
-                       start for substantive work. Empty by default —
-                       populated intentionally by the user over time.
+                       Indexed at _index.md. Roles query this for
+                       substantive work once it has entries. Empty by
+                       default — populated intentionally by the user.
   archive/          ← inactive items from the above three categories
 ```
 
@@ -382,7 +382,8 @@ flag it and ask. Never file anything without explicit instruction.
 **This applies to every role. Role files do not restate it.**
 
 The library is empty for new IME instances and grows only through
-deliberate curation.
+deliberate curation. While it is empty there is nothing to fetch;
+skip the lookup until the index has entries.
 
 ---
 

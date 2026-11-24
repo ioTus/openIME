@@ -5,8 +5,9 @@ philosophies, distribution strategies, and build patterns. Used at
 project kickoff and during active build cycles to pressure-test
 decisions against proven signals.
 
-Empty by default. Roles read this index at session start for
-substantive work; intake is always user-initiated.
+Empty by default, and while it is empty there is nothing here to
+read. Once it holds entries, roles consult this index for substantive
+work. Intake is always user-initiated.
 
 ## How to Use
 - At project kickoff: search tags relevant to the problem space

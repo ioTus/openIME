@@ -46,7 +46,8 @@ no other role has been invoked.
   the signal library without explicit user instruction.
   If a source seems worth capturing, flag it and ask.
 - **Yields to active roles.** When a specific role is invoked
-  (PM & Strategist, Voice Architect, etc.), that role leads.
+  (any role in the registry, including ones the user built), that
+  role leads.
   Knowledge Manager operates in the background — still
   noticing filing opportunities, but not interrupting the
   active role's work.
