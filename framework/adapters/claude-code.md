@@ -12,8 +12,20 @@ preference edits.
 | Layer | Location | Content |
 |-------|----------|---------|
 | 1 — durable | `~/.claude/CLAUDE.md` (user-level, loads in **every** project) | The universal block plus the `## Platform: Claude` section from `framework/system-core.md`, deployed verbatim with its version stamp |
-| 2 — project | `CLAUDE.md` in the project directory | Project-specific context — the `_config.md` equivalent. Optional |
-| cloud sessions | `CLAUDE.md` at the cloned repo's root | Pointer stub only — cloud containers have no access to the user's `~/.claude/`. The hub commits a three-line stub pointing at `IME.md` and `system-core.md`; never a copy of the block |
+| 2 — project | `CLAUDE.md` in the project directory (the folder Claude Code is opened in) | The `_config.md` pointer — one line, `knowledge/{projects\|areas}/{slug}/_config.md` — plus any project-specific context. Optional; with no pointer the hub is the default workspace |
+| repo root | `CLAUDE.md` at the clone's root | Pointer stub only: read `IME.md`, durable rules in `framework/system-core.md`. Never a copy of the block. Cloud sessions have no `~/.claude/`, so this stub is all they see before `IME.md` |
+
+**Where the `_config.md` pointer goes on this platform:** Layer 2.
+When the project directory is the hub clone itself, the root stub is
+the Layer 2 file, and the pointer line is added to it — a pointer
+belongs in a pointer stub; the System Core block does not. The
+onboarding workflow's Generate System Prompt step hands over this
+line (`framework/workflows/onboarding/workflow.md`).
+
+The `## Platform: Claude` section of the System Core describes the
+GitBridge transport. In a session with a local clone and no GitBridge
+connector, that paragraph does not apply; the transport is native
+`git`, below.
 
 Auto-memory (`~/.claude/projects/.../memory/`) is a third,
 session-learned layer; it supplements but never replaces Layer 1.
@@ -25,6 +37,26 @@ System Core change → bump the stamp in `system-core.md` → re-deploy
 to `~/.claude/CLAUDE.md` → changelog entry. The conditional
 bootstrap wording ("when the session involves IME") is what makes
 the global deployment safe in non-IME projects.
+
+## Write path
+
+The transport on this platform is native `git` in the local clone,
+with `gh` for issues. The approval rules (draft, show, explicit yes,
+Tier 2 to create, Tier 3 to update, Tier 4 to delete) do not change.
+`IME.md` §Write Discipline maps onto git like this:
+
+| Rule | On native git |
+|------|---------------|
+| 3 — read before you write; note the SHA | The file is read from disk. Its blob SHA is `git hash-object <path>`; the commit it was read under is `git rev-parse HEAD`. Note both before editing a file not already in context. Before editing one that is, re-run `git hash-object` on it: same SHA → proceed; different → full read first |
+| 6 — guard every write against drift | Drift here is the remote moving under the clone. `git fetch` before committing and confirm `origin/<branch>` is still the commit you read under; if it advanced, `git pull --rebase`, re-verify the files, then continue. `git push` without `--force` is the server-side guard: a branch that moved rejects the push and nothing lands. Never force-push |
+| 4 — one commit per logical unit | `git add` the files of one approved change by path, never `-A`. A new file and its `_index.md` row go in the same commit (`IME.md` §Directory indexes) |
+| 5 — deletions and renames verified | `git rm` and `git mv` record the real operation; `git show --stat HEAD` confirms the old path is gone |
+| §Transport — never reproduce unrelated content | Edit the file in place on disk; nothing is retyped. An edit tool that takes a match string must match exactly once |
+| 7 — verify after writing | After the push: `git fetch`, then `git log -1 --stat origin/<branch>` shows the commit on the remote and `git status -sb` shows the branch level with it. A write is done when the remote shows it, not when the command returns |
+
+Commit messages carry the `IME.md` attribution prefixes. Issue
+comments go through `gh issue comment` with the standard opening and
+trailer.
 
 ## Platform Memory
 
