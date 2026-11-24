@@ -82,7 +82,9 @@ what a step is for before asking its question.
    Then show the one-row addition to `_index.md` and get its own
    yes (Tier 3). Two approvals, one commit: write the file and the
    registry row together, as `IME.md` §Directory indexes requires.
-   Read both back and confirm they landed.
+   Read both back and confirm they landed. A new role changes how
+   the AI operates, so add the changelog entry next (format:
+   `framework/maintenance.md` §Changelog entry format).
 
 5. **Hand off.** Tell the person how to use it: say "take on the
    role of {name}" and the AI answers `📐 Role: {name}`. Remind them

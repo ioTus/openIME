@@ -39,9 +39,24 @@ search both when debugging.
 
 ## Changelog entry format
 
-Each entry must include: date, short title, files affected, change
-type, status, what changed, and why. See `framework/changelog.md`
-for the format and all entries.
+```
+## YYYY-MM-DD — Short title (issue, if any)
+
+**Files affected:** `path/to/file.md` (new | updated | deleted)
+**Type:** New convention | Rule change | Structural change | Rationale added | Bug fix
+**Status:** private-only | promoted (YYYY-MM-DD)
+**Change:** What was added, removed, or modified, and the commit it landed in.
+**Why:** The problem it solves or the risk it mitigates.
+```
+
+What counts as a change that affects how the AI operates: any file
+under `framework/` that the AI reads in order to work — `IME.md`,
+this file, a role, a skill, a workflow, an adapter, a principle —
+whether new or changed. A new role built with the Role Builder gets
+an entry (Type: Structural change). Cosmetic edits do not.
+
+`Status` serves the promotion discipline below. A hub with no public
+copy omits the field.
 
 ---
 
