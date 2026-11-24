@@ -24,12 +24,16 @@ The user should see Step 1, 2, 3... with no gaps.
 
 ## Confirmation Gate
 
-Before beginning, always confirm intent:
+The exact trigger phrase is the confirmation. When the user typed
+"Set up IME" or "Setup IME," go straight to Step 0.
+
+Confirm only when the workflow was reached another way — a setup
+question, or intent inferred from context:
 
 > "Would you like to configure IME for this workspace? This
 > will walk you through setting up your project or area."
 
-Proceed only on explicit confirmation.
+Then proceed only on explicit confirmation.
 
 ---
 
@@ -37,8 +41,10 @@ Proceed only on explicit confirmation.
 
 Determine which situation the user is in:
 
-- **New setup** — Fresh workspace, just pasted the bootstrap
-  prompt. First time connecting to IME.
+- **New setup** — Fresh workspace: the durable layer (the System
+  Core block from `framework/system-core.md`) was just deployed to
+  the platform's always-on prompt, and nothing under `knowledge/`
+  is the user's yet. First time connecting to IME.
 - **Connecting existing** — Workspace already has context,
   files, or a system prompt. Hooking it into IME.
 - **Adding a folder** — Already running a full IME system
@@ -91,17 +97,17 @@ holds (`IME.md` §Directory indexes):
 {One line per file, added as files are created.}
 ```
 
-**_config.md** — project configuration that the system prompt
-points to. This is the single reference point for all
-project-specific context. When files are added, renamed, or
-the project evolves, update this file — not the system prompt.
+**_config.md** — the configuration the project layer points to,
+for a project or an area alike. This is the single reference point
+for all folder-specific context. When files are added, renamed, or
+the work evolves, update this file — not the system prompt.
 
 ```
-# {Name} — Project Config
+# {Name} — Config
 
 ## Base Path
 
-/knowledge/projects/{slug}/
+/knowledge/{projects|areas}/{slug}/
 
 ## Default Role
 
@@ -138,17 +144,19 @@ All paths in `_config.md` follow one rule:
   Used for anything outside the project folder — roles,
   workflows, cross-project references.
 - **Paths without `/`** resolve relative to the declared
-  `base_path`. Used for files and directories that belong
-  to this project.
+  Base Path. Used for files and directories that belong
+  to this project or area.
 
-`base_path` is required. It is constructed automatically
-from the PARA classification and project slug:
+Base Path is required. It is constructed automatically
+from the PARA classification and slug:
 - Projects → `/knowledge/projects/{slug}/`
 - Areas → `/knowledge/areas/{slug}/`
 
-If no role, files, or instructions are known yet, create
-the _config.md with empty sections. They will be populated
-as the project develops.
+Default Role on a new setup is
+`/framework/roles/knowledge-manager.md` unless the user has chosen
+or built another; a role built later (Role Builder) replaces it. If
+no files or instructions are known yet, leave those sections empty.
+They fill in as the work develops.
 
 ---
 
@@ -162,8 +170,8 @@ list them and offer two options:
 
 > "These files already exist in this workspace. Want to
 > migrate them into your IME? I can handle it here
-> (slower — I'll transfer each file through the bridge),
-> or you can upload them directly to GitHub (faster —
+> (slower — I'll transfer each file through my connection
+> to the repo), or you can add them to the repo directly (faster —
 > just drag and drop into `knowledge/projects/{slug}/`
 > or `knowledge/areas/{slug}/` in the repo). Which do
 > you prefer?"
@@ -280,7 +288,7 @@ Repository section to the `_config.md`:
 - owner: {owner}
 - repo: {repo}
 - workflow: /framework/workflows/pm-builder/workflow.md
-- builder: Replit
+- builder: {builder}
 ```
 
 If there's no signal suggesting a code repo, skip this step.
@@ -299,24 +307,11 @@ confirm before writing.
 
 ## Generate System Prompt
 
-### Check for global preferences layer
-
-Some AI platforms support global preferences that apply to every
-conversation (e.g., User Preferences on Claude, Custom Instructions
-on ChatGPT). Ask:
-
-> "Does your AI platform have a global preferences or instructions
-> setting that applies to all conversations?"
-
-**If yes (e.g., Claude User Preferences):**
-
-Check whether the user already has the IME bootstrap in their
-global preferences. If not, help them set it up using the
-template in the platform's adapter file (e.g.,
-`framework/adapters/claude.md`).
-
-Once the global layer is confirmed, the project system prompt
-is a single line — the path to the `_config.md`:
+IME uses two prompt layers. The **durable layer** is the System
+Core block from `framework/system-core.md` — hub declaration,
+connection protocol, write discipline — deployed to the platform's
+always-on prompt. The **project layer** is a single line, the path
+to the `_config.md`:
 
 ```
 knowledge/projects/{slug}/_config.md
@@ -328,11 +323,22 @@ Or for an area:
 knowledge/areas/{slug}/_config.md
 ```
 
-All operational context — hub declaration, connection protocol,
-write discipline — lives in the global preferences. The
-`_config.md` handles project scope. `IME.md` handles operations.
+Where each layer lives depends on the platform. If the session does
+not show which platform this is, ask; then follow its adapter:
 
-**If no (platform has no global layer):**
+| Platform | Durable layer | Project layer (the `_config.md` line) | Adapter |
+|----------|---------------|----------------------------------------|---------|
+| claude.ai | Settings → Profile → User Preferences | The Claude Project's instructions | `framework/adapters/claude.md` |
+| Claude Code | `~/.claude/CLAUDE.md` | `CLAUDE.md` in the project directory — the clone's root `CLAUDE.md` when the project is the hub itself | `framework/adapters/claude-code.md` |
+| ChatGPT | Settings → Personalization → Custom Instructions | The ChatGPT Project's instructions | `framework/adapters/chatgpt.md` |
+
+Ask whether the durable layer is already deployed — the AI cannot
+read its own prompt. If not, help set it up from the adapter: the
+universal block plus the platform's own section, pasted verbatim
+with its version stamp. Once it is confirmed, hand over the
+one-line project layer and say exactly where it goes.
+
+**Platform with no durable layer:**
 
 Generate a full system prompt that includes:
 - Hub repo declaration (owner and repo)
@@ -366,10 +372,11 @@ Format:
 >
 > **Next steps:**
 >
-> 1. Copy the system prompt above (it's one line)
-> 2. Paste it into your Claude Project instructions,
->    replacing your current system prompt
-> 3. Confirm your global User Preferences contain the
->    IME bootstrap (if not, we'll set that up now)
+> 1. Copy the project layer above (it's one line)
+> 2. Put it where your platform keeps it: Claude Project
+>    instructions on claude.ai; `CLAUDE.md` in your project
+>    directory on Claude Code; Project instructions on ChatGPT
+> 3. Confirm your durable layer carries the IME System Core
+>    block (if not, we'll set that up now from the adapter)
 > 4. Start a new conversation — IME will be fully active
 >    from the first message
