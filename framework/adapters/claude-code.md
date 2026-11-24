@@ -20,9 +20,10 @@ belongs in a pointer stub; the System Core block does not. The
 onboarding workflow's Generate System Prompt step hands over this
 line (`framework/workflows/onboarding/workflow.md`).
 
-The `## Platform: Claude` section of the System Core describes the
-GitBridge transport. In a session with a local clone and no GitBridge
-connector, that paragraph does not apply; the transport is native
+The `## Platform: Claude` section of the System Core has one
+paragraph per surface. In a session with a local clone and no
+connector, the claude.ai paragraph (GitBridge) does not apply; follow
+the Claude Code paragraph and this adapter: the transport is native
 `git`, below.
 
 Auto-memory (`~/.claude/projects/.../memory/`) is a third,

@@ -58,8 +58,9 @@ goal is to point your tools at this repo so they read
 skills from here instead of (or in addition to) their
 local skill directories.
 
-**Claude Code:** Symlink or configure skill paths to point
-at your IME repo's `framework/skills/` directory.
+**Claude Code:** symlink the skill folders you want from
+`framework/skills/` into `~/.claude/skills/` (every project) or a
+project's `.claude/skills/`.
 
 **Cursor / VS Code:** Reference the repo path in your
 skills configuration.
@@ -68,8 +69,8 @@ skills configuration.
 standard can read from this directory. Consult the tool's
 documentation for how to configure external skill sources.
 
-See `framework/adapters/` for platform-specific notes on
-skill integration.
+Each tool's own documentation says where it looks for skills;
+point that location at this folder.
 
 ---
 

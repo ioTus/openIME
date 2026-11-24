@@ -15,12 +15,18 @@ everything else can be read on demand.
 
 **Structure (since v1.5):** one universal block, then one
 short section per platform. A deployed prompt is the universal block
-followed by exactly one platform section, and must fit the tightest
-platform limit (ChatGPT Custom Instructions, 5,000 characters as
-reported by the platform; verify by pasting). The universal block is
+followed by exactly one platform section. The ChatGPT deployment
+must fit that platform's Custom Instructions limit (5,000 characters
+as reported by the platform; verify by pasting), so the universal
+block is sized to it; other platforms publish no limit today. The
+universal block is
 the portable part and what openIME ships; platform sections carry
 only what differs by transport. Where to paste each: the platform's
 adapter in `adapters/`.
+
+**Before deploying:** in §Hub, replace `{hub-owner}` and `{hub-repo}`
+with your repository's owner and name. Everything else is pasted as
+it stands here.
 
 **Sync rule** (full procedure in `maintenance.md`): any change below
 requires bumping the version stamp, re-pasting into each platform's

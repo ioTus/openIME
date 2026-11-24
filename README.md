@@ -148,10 +148,14 @@ with your complete context.
 
 ## Getting Started
 
-### 1. Fork this repo
+### 1. Make your own copy
 
-Click "Fork" to create your own copy. This becomes your
-personal IME — yours to customize, yours to own.
+Create a private repository of your own from this one: use
+GitHub's "Use this template" if it is offered, or clone this repo
+and push it to a new private repository. A fork of a public repo
+cannot be made private, and your `knowledge/` will hold things
+you do not publish. This copy becomes your personal IME — yours
+to customize, yours to own.
 
 ### 2. Connect it to your AI tools
 
@@ -186,7 +190,7 @@ clone of the repo directly.
 > has no native GitHub access, so it needs you to run a GitBridge MCP
 > server and add it as a custom connector before it can read or write
 > your repo. ChatGPT connects through its native GitHub integration.
-> Cursor, Windsurf and Gemini are untested here.
+> Cursor, Windsurf and Gemini are untested.
 
 Once connected, your AI tool can read your identity, your
 project context, your roles, and your knowledge — and it can

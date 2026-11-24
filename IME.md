@@ -161,8 +161,8 @@ knowledge/          ← personal content, organized by PARA framework
 ```
 
 `framework/` holds operating rules, never personal data — it is the
-portable part. `knowledge/` is personal and never leaves the private
-repo.
+portable part. `knowledge/` is personal and stays in your copy; keep
+the repository private if it holds anything you would not publish.
 
 ### Directory indexes
 

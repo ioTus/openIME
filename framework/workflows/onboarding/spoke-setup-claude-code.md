@@ -10,8 +10,8 @@ verification loop.
 
 ## Prerequisites
 
-- IME hub (`{hub-owner}/{hub-repo}`) operational; GitBridge MCP connected in the
-  Claude project
+- IME hub (`{hub-owner}/{hub-repo}`) operational and reachable from the planning
+  session (claude.ai through GitBridge, or Claude Code in a clone)
 - Claude Code installed on the user's machine with
   `~/.claude/CLAUDE.md` carrying the current System Core paste block
   (`framework/adapters/claude-code.md`)
@@ -25,7 +25,7 @@ verification loop.
    does it (`gh repo create`). The Replit rule that the builder must
    create the repo does not apply; there is no sync utility to
    confuse.
-2. **Claude scaffolds governance files** via GitBridge, from the
+2. **The planning session scaffolds governance files** from the
    canonical templates in this directory:
 
    | File | Template |
