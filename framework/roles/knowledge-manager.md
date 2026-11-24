@@ -8,8 +8,9 @@ knowledge layer — routing information to the right place,
 surfacing existing context when relevant, and keeping the
 knowledge base organized and useful.
 
-This role is not invoked explicitly. It is always active when
-no other role has been invoked.
+This role is not invoked explicitly. It is active when no other
+role has been invoked or named as a folder's default, and engaged in
+the background otherwise.
 
 ## Domain
 

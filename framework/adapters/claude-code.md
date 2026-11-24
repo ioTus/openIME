@@ -9,16 +9,20 @@ is deployed separately here.
 
 | Layer | Location | Content |
 |-------|----------|---------|
-| 1 — durable | `~/.claude/CLAUDE.md` (user-level, loads in **every** project) | The universal block plus the `## Platform: Claude` section from `framework/system-core.md`, deployed verbatim with its version stamp |
+| 1 — durable | `~/.claude/CLAUDE.md` (user-level, loads in **every** project) | The universal block plus the `## Platform: Claude` section from `framework/system-core.md`, deployed with its version stamp, its §Hub line naming this hub |
 | 2 — project | `CLAUDE.md` in the project directory (the folder Claude Code is opened in) | The `_config.md` pointer — one line, `knowledge/{projects\|areas}/{slug}/_config.md` — plus any project-specific context. Optional; with no pointer the hub is the default workspace |
 | repo root | `CLAUDE.md` at the clone's root | Pointer stub only: read `IME.md`, durable rules in `framework/system-core.md`. Never a copy of the block. Cloud sessions have no `~/.claude/`, so this stub is all they see before `IME.md` |
+
+**Working in a spoke clone:** the hub's `IME.md` is read from the
+hub clone on disk; the spoke's `CLAUDE.md` names that path. Without
+a hub clone, read hub files with `gh api repos/{hub-owner}/{hub-repo}/contents/<path>`.
 
 **Where the `_config.md` pointer goes on this platform:** Layer 2.
 When the project directory is the hub clone itself, the root stub is
 the Layer 2 file, and the pointer line is added to it — a pointer
 belongs in a pointer stub; the System Core block does not. The
-onboarding workflow's Generate System Prompt step hands over this
-line (`framework/workflows/onboarding/workflow.md`).
+onboarding workflow's Generate System Prompt step writes this line
+(Tier 3) on this platform (`framework/workflows/onboarding/workflow.md`).
 
 The `## Platform: Claude` section of the System Core has one
 paragraph per surface. In a session with a local clone and no
@@ -49,14 +53,16 @@ Tier 2 to create, Tier 3 to update, Tier 4 to delete) do not change.
 | Rule | On native git |
 |------|---------------|
 | 3 — read before you write; note the SHA | The file is read from disk. Its blob SHA is `git hash-object <path>`; the commit it was read under is `git rev-parse HEAD`. Note both before editing a file not already in context. Before editing one that is, re-run `git hash-object` on it: same SHA → proceed; different → full read first |
-| 6 — guard every write against drift | Drift here is the remote moving under the clone. `git fetch` before committing and confirm `origin/<branch>` is still the commit you read under; if it advanced, `git pull --rebase`, re-verify the files, then continue. `git push` without `--force` is the server-side guard: a branch that moved rejects the push and nothing lands. Never force-push |
+| 6 — guard every write against drift | Drift here is the remote moving under the clone. `git fetch` before committing and confirm `origin/<branch>` is still the commit you read under; if it advanced, `git pull --rebase`, re-verify the files, then continue. `git push` without `--force` is the server-side guard: a branch that moved rejects the push and nothing lands. Never force-push. A clone with no remote yet has nothing to drift against; skip the fetch |
 | 4 — one commit per logical unit | `git add` the files of one approved change by path, never `-A`. A new file and its `_index.md` row go in the same commit (`IME.md` §Directory indexes) |
 | 5 — deletions and renames verified | `git rm` and `git mv` record the real operation; `git show --stat HEAD` confirms the old path is gone |
 | §Transport — never reproduce unrelated content | Edit the file in place on disk; nothing is retyped. An edit tool that takes a match string must match exactly once |
-| 7 — verify after writing | After the push: `git fetch`, then `git log -1 --stat origin/<branch>` shows the commit on the remote and `git status -sb` shows the branch level with it. A write is done when the remote shows it, not when the command returns |
+| 7 — verify after writing | After the push: `git fetch`, then `git log -1 --stat origin/<branch>` shows the commit on the remote and `git status -sb` shows the branch level with it. A write is done when the remote shows it, not when the command returns. A clone with no remote yet: `git log -1 --stat` and a clean `git status` are the read-back, and the push step applies once a remote exists |
 
 Commit prefixes, and the opening and trailer of an issue comment,
-are the System Core's §Attribution (`framework/system-core.md`).
+are the System Core's §Attribution (`framework/system-core.md`). A
+project `CLAUDE.md` or `_config.md` edit is configuration: `[docs]`
+like any knowledge file, and no changelog entry.
 Issue comments go through `gh issue comment`.
 
 ## Platform Memory

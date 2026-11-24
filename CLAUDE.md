@@ -1,5 +1,7 @@
-This repo is an IME hub (`{hub-owner}/{hub-repo}`). Read `IME.md` at
-the repo root and follow its startup sequence. Durable-layer rules:
+This repo is an IME hub. Read `IME.md` at the repo root and follow
+its startup sequence — unless the user's message is "Set up IME" or "Setup IME",
+which runs `framework/workflows/onboarding/workflow.md` instead.
+Durable-layer rules:
 `framework/system-core.md` — its universal block and `## Platform:
 Claude` section (follow its Claude Code paragraph) apply as operating
 instructions, and belong deployed in `~/.claude/CLAUDE.md` with

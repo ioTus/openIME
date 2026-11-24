@@ -145,7 +145,7 @@ framework/          ← the operating system (portable, extractable)
   roles/            ← structured evaluation lenses
   skills/           ← optional: centralized Agent Skills (open standard)
   principles/       ← standing decisions and values
-  workflows/        ← workflow templates (PM-builder, content, etc.)
+  workflows/        ← workflow templates (onboarding, PM-builder, parallel threads)
 
 knowledge/          ← personal content, organized by PARA framework
   projects/         ← active projects (self-contained working folders)
@@ -292,7 +292,8 @@ This trigger takes priority over all other startup behavior.
 At the beginning of every session:
 
 1. **Read this file** (`IME.md`)
-2. **Read the project config** — if the system prompt references
+2. **Read the project config** — if the project layer (system
+   prompt, or project `CLAUDE.md` on Claude Code) references
    a `_config.md`, read it. Load the default role and key files
    specified there.
 3. **Read `framework/roles/_index.md`** for available roles
@@ -328,7 +329,8 @@ At the beginning of every session:
 Roles are structured evaluation lenses that define how the AI
 operates. They live in `framework/roles/`.
 
-- **On-demand only** — never preloaded unless the workflow assigns one
+- **On-demand only** — never preloaded unless a `_config.md`
+  names one as the default
 - **One at a time** — never combined into a panel review
 - **Explicitly announced** — always state which role is active
 - **Switching is announced, not approved** — see below
@@ -354,11 +356,11 @@ with the role, which is why a switch needs no approval turn.
 
 ### Default mode
 
-When no role is explicitly invoked, the Knowledge Manager role
-is active by default. This ensures the PARA knowledge layer is
-always engaged — routing information, surfacing context, and
-suggesting where things belong. See
-`framework/roles/knowledge-manager.md`.
+When no role is explicitly invoked, the default role is active:
+the one the project or area `_config.md` names, else the Knowledge
+Manager. Either way the PARA knowledge layer stays engaged —
+routing information, surfacing context, suggesting where things
+belong (`framework/roles/knowledge-manager.md`).
 
 Not every task needs a specialized role, but the knowledge
 layer is always active.

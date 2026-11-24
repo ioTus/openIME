@@ -50,10 +50,13 @@ search both when debugging.
 ```
 
 What counts as a change that affects how the AI operates: any file
-under `framework/` that the AI reads in order to work — `IME.md`,
+under `framework/`, or `IME.md`, that the AI reads in order to work —
 this file, a role, a skill, a workflow, an adapter, a principle —
 whether new or changed. A new role built with the Role Builder gets
-an entry (Type: Structural change). Cosmetic edits do not.
+an entry (Type: Structural change). Cosmetic edits do not, and
+neither do configuration edits outside `framework/` — a project
+`CLAUDE.md` pointer, a `_config.md` default role — which change what
+one folder loads, not how the AI operates.
 
 `Status` serves the promotion discipline below. A hub with no public
 copy omits the field.
@@ -74,7 +77,9 @@ field directly.
 
 When re-reading this file before a framework write, also check that
 the session's system prompt carries the current system-core version
-stamp. Mismatch → tell the user to re-paste before proceeding.
+stamp. Mismatch → re-deploy before proceeding: the user re-pastes on
+claude.ai and ChatGPT; on Claude Code rewrite `~/.claude/CLAUDE.md`
+(Tier 3).
 
 ## Public-copy promotion discipline
 

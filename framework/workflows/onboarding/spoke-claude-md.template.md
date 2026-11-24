@@ -8,7 +8,8 @@ IME files it names. Push as-is.
 
 ## Content:
 
-    This repo is an IME spoke; the hub is {hub-owner}/{hub-repo}. Read `IME.md` at
+    This repo is an IME spoke; the hub is {hub-owner}/{hub-repo},
+    cloned locally at {hub-local-path}. Read `IME.md` at
     this repo root first, then `IME-AGENTS.md` and
     `IME-AGENTS-claude-code.md`. Work from the GitHub issue you were
     given, to its acceptance criteria, then stop and report on the

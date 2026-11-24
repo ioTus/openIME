@@ -1,8 +1,9 @@
 # Onboarding Workflow
 
 Triggered when a user says "Set up IME" or "Setup IME."
-This specific phrase is the only trigger — general mentions
-of "IME" in conversation do not activate this workflow.
+That phrase is the only one that skips the confirmation gate;
+general mentions of "IME" in conversation do not activate this
+workflow.
 
 ---
 
@@ -12,13 +13,6 @@ At each step, announce the step number and total to the user
 so they always know where they are in the process. Format:
 
 > **Step N of X — {Step Name}**
-
-After the Confirmation Gate and Step 0, calculate the total
-number of applicable steps based on the entry point. Skip
-counted steps that don't apply (e.g., Migrate Files and
-Extract Role only apply to "connecting existing"), but
-keep the numbering sequential from the user's perspective.
-The user should see Step 1, 2, 3... with no gaps.
 
 The steps, in order, and when each applies:
 
@@ -33,7 +27,8 @@ The steps, in order, and when each applies:
 9. Generate System Prompt
 10. Done
 
-After Step 0, count the ones that apply and number them from 1.
+After Step 0, count the ones that apply to the entry point and
+number them from 1, with no gaps.
 
 ---
 
@@ -56,15 +51,17 @@ Then proceed only on explicit confirmation.
 
 Determine which situation the user is in:
 
-- **New setup** — Fresh workspace: the durable layer (the System
-  Core block from `framework/system-core.md`) is being deployed to
-  the platform's always-on prompt for the first time, and nothing
-  under `knowledge/` is the user's yet.
+- **New setup** — Nothing under `knowledge/` is the user's yet;
+  the durable layer (the System Core block from
+  `framework/system-core.md`) may have just been deployed or may
+  still need to be.
 - **Connecting existing** — Workspace already has context,
   files, or a system prompt. Hooking it into IME.
-- **Adding a folder** — Already running a full IME system
-  prompt. Setting up a new project or area in the PARA
-  structure.
+- **Adding a folder** — `knowledge/` already holds the user's
+  projects or areas; this adds another.
+
+An existing workspace context wins: a workspace with its own prompt
+or files is "connecting existing" even when `knowledge/` is empty.
 
 If the user's intent is clear from context, confirm rather
 than ask: "Looks like you're connecting an existing workspace
@@ -98,7 +95,10 @@ Confirm the slug before proceeding.
 
 ## Scaffold
 
-Create the folder with two files:
+Create the folder with two files, and in the same commit add the
+folder's row to its parent index (`knowledge/projects/_index.md` or
+`knowledge/areas/_index.md`), replacing any placeholder line there
+("No projects yet…" or the like) (`IME.md` §Directory indexes):
 
 **_index.md** — what this project or area is and what the folder
 holds (`IME.md` §Directory indexes):
@@ -108,7 +108,7 @@ holds (`IME.md` §Directory indexes):
 
 {One or two sentences: what this is.}
 
-- `_config.md` — project config
+- `_config.md` — config
 {One line per file, added as files are created.}
 ```
 
@@ -138,17 +138,18 @@ Read these at session start for working context:
 
 - {dir}/ — {description}
 
-## Spoke Repository (if applicable)
+## Spoke Repository
 
 - owner: {owner}
 - repo: {repo}
 - workflow: /framework/workflows/pm-builder/workflow.md
 - builder: {builder}
 
-## Project-Specific Instructions
+## Folder-Specific Instructions
 
 {Any non-role instructions from the original system prompt,
-or project constraints and preferences. Leave blank if none.}
+or constraints and preferences for this project or area.
+`(none yet)` if none.}
 ```
 
 ### Path convention
@@ -167,11 +168,14 @@ from the PARA classification and slug:
 - Projects → `/knowledge/projects/{slug}/`
 - Areas → `/knowledge/areas/{slug}/`
 
-Default Role on a new setup is
+Default Role on a new setup or an added folder is
 `/framework/roles/knowledge-manager.md` unless the user has chosen
-or built another; a role built later (Role Builder) replaces it. If
-no files or instructions are known yet, leave those sections empty.
-They fill in as the work develops.
+or built another; a role built later can replace it (the Role
+Builder's hand-off step asks). Drop the Spoke
+Repository section when there is no spoke. Keep Key Files, Working
+Directories and Folder-Specific Instructions even when nothing is
+known yet, each with `(none yet)` under its heading; they fill in as
+the work develops.
 
 ---
 
@@ -237,14 +241,19 @@ If role-like content is present:
   `financial-manager-custom.md`). Present both to the user
   side by side so they can compare and choose which to set
   as the default for this workspace. Both remain available.
-- **If no similar role exists:** Present the draft role for
-  approval. On confirmation, write it to `framework/roles/`
-  and add it to the available roles table in `_index.md`.
-- Update `_config.md` with the chosen default role.
+- **If no similar role exists:** Present the draft role and its
+  `_index.md` row for approval. Re-read `framework/maintenance.md` (required before any
+  write to `framework/`); on confirmation, write it to
+  `framework/roles/` and add it to the available roles table in
+  `_index.md` in the same commit, then add its changelog entry
+  (Structural change) as its own approved commit. A `-custom`
+  variant is a new role and gets the same.
+- Update `_config.md` with the chosen default role (`[docs]`, no
+  changelog entry).
 
 Any non-role content from the original prompt (specific
 instructions, constraints, project context) is preserved
-and added to the Project-Specific Instructions section of
+and added to the Folder-Specific Instructions section of
 `_config.md`.
 
 Nothing from the original prompt is lost — it is decomposed
@@ -348,11 +357,17 @@ not show which platform this is, ask; then follow its adapter:
 | ChatGPT | Settings → Personalization → Custom Instructions | The ChatGPT Project's instructions | `framework/adapters/chatgpt.md` |
 
 Check whether the durable layer is deployed: on Claude Code, read
-`~/.claude/CLAUDE.md`; on other platforms ask, since the AI cannot
-read its own prompt. If not, help set it up from the adapter: the
-universal block plus the platform's own section, pasted verbatim
-with its version stamp. Once it is confirmed, hand over the
-one-line project layer and say exactly where it goes.
+`~/.claude/CLAUDE.md` (a cloud session has none; there the root
+`CLAUDE.md` stub plus `IME.md` is the whole layer, and this check is
+skipped); on other platforms ask, since the AI cannot read its own
+prompt. If not, help set it up from the adapter: the
+universal block plus the platform's own section, pasted with its
+version stamp and its §Hub line naming this repository. Once it is
+confirmed, put the one-line
+project layer in place: on Claude Code it is a file in the clone, so
+add the line to the project `CLAUDE.md` yourself (Tier 3: show the
+edit, get the yes) and read it back; on claude.ai and ChatGPT hand
+the line over and say exactly where it goes.
 
 **Platform with no durable layer:**
 
@@ -380,7 +395,8 @@ Format:
 
 > **Onboarding complete.** Here's what was set up:
 >
-> - {folder path} created with _index.md and _config.md
+> - {folder path} created with _index.md and _config.md, listed in
+>   its parent index
 > - {spoke repo added to _config.md, if any}
 > - {list of migrated files, if any}
 > - {role updates, if any}
@@ -388,11 +404,9 @@ Format:
 >
 > **Next steps:**
 >
-> 1. Copy the project layer above (it's one line)
-> 2. Put it where your platform keeps it: Claude Project
->    instructions on claude.ai; `CLAUDE.md` in your project
->    directory on Claude Code; Project instructions on ChatGPT
-> 3. Confirm your durable layer carries the IME System Core
->    block (if not, we'll set that up now from the adapter)
-> 4. Start a new conversation — IME will be fully active
+> 1. The project layer is one line. On Claude Code it is already
+>    in your project `CLAUDE.md`; on claude.ai paste it into the
+>    Claude Project's instructions; on ChatGPT into the Project's
+>    instructions
+> 2. Start a new conversation — IME will be fully active
 >    from the first message

@@ -228,7 +228,7 @@ the cheapest possible place to catch a misread scope.
 
 ---
 
-## Failure modes seen in practice
+## Failure modes
 
 **A fact reported to the wrong audience.** Not unreported — misrouted. The routing
 rule above is the only guard, and it must be written down.

@@ -4,7 +4,8 @@ Roles are structured evaluation lenses. This file is the registry
 only — it is read at every session startup, so it stays minimal.
 
 Operating rules (on-demand, one at a time, explicitly announced,
-announced switching, no approval turn) are defined in `IME.md` §Roles.
+announced switching with no approval turn, the `_config.md` role or
+Knowledge Manager as default) are defined in `IME.md` §Roles.
 That file is the authority; this one does not restate it.
 
 When a role is active, announce it: `📐 Role: [name]`
@@ -15,7 +16,7 @@ When a role is active, announce it: `📐 Role: [name]`
 
 | File | Role | Use when |
 |------|------|----------|
-| `knowledge-manager.md` | Knowledge Manager | Default — always active when no other role is invoked |
+| `knowledge-manager.md` | Knowledge Manager | Default when no other role is invoked or named in a folder's `_config.md`; always engaged in the background |
 | `role-builder.md` | Role Builder | Building or revising a role for yourself: a guided interview; blank starts in `templates/` |
 
 Blank templates (headings only) live in `templates/`. Invoking one

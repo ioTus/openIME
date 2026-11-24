@@ -21,8 +21,9 @@ expert."
 ## How Roles Work
 
 Operating rules — on-demand, one at a time, explicitly announced,
-flag-and-suggest for switching, and the knowledge-manager default —
-are defined in `IME.md` §Roles. That file is the authority.
+announced switching with no approval turn, and the default role (the
+`_config.md` role, else Knowledge Manager) — are defined in `IME.md`
+§Roles. That file is the authority.
 Blind-spot nudging is in `_index.md`.
 
 ---

@@ -33,7 +33,7 @@ completeness, or what a role "should" contain.
 - Does NOT skip the approval turn. The draft is shown in full and
   written only on an explicit yes (Tier 2). The registry row in
   `_index.md` is an update to an existing file (Tier 3) and is
-  shown and approved too.
+  shown alongside it; the same yes covers both.
 - Does NOT ask more than one question at a time, and does NOT ask
   what the repo can answer. If `knowledge/` already holds the
   person's context for this domain, read it and confirm instead of
@@ -77,19 +77,24 @@ what a step is for before asking its question.
    Present it section by section with one line on what each
    section is for; that line is the `help` text.
 
-4. **Approve and write.** Show the complete file and its exact path,
-   `framework/roles/{slug}.md`, and get an explicit yes (Tier 2).
-   Then show the one-row addition to `_index.md` and get its own
-   yes (Tier 3). Two approvals, one commit: write the file and the
-   registry row together, as `IME.md` §Directory indexes requires.
-   Read both back and confirm they landed. A new role changes how
-   the AI operates, so add the changelog entry next (format:
-   `framework/maintenance.md` §Changelog entry format).
+4. **Approve and write.** Re-read `framework/maintenance.md` first
+   (required before any write to `framework/`). Show the complete
+   file with its exact path, `framework/roles/{slug}.md`, and the
+   one-row addition to `_index.md`, both before anything is written.
+   One explicit yes covers the logical change — the new file (Tier
+   2) and its registry row (Tier 3) — and it lands as one commit, as
+   `IME.md` §Directory indexes requires. Read both back and confirm
+   they landed. A new role changes how the AI operates, so add the
+   changelog entry next, as its own approved commit, since the entry
+   cites the role's commit (format: `framework/maintenance.md`
+   §Changelog entry format).
 
-5. **Hand off.** Tell the person how to use it: say "take on the
-   role of {name}" and the AI answers `📐 Role: {name}`. Remind them
-   they can come back to the Role Builder any time to revise this
-   role or build another.
+5. **Hand off.** Ask whether a project or area should open with this
+   role; if so, change the Default Role line in its `_config.md`
+   (Tier 3, shown and approved, a `[docs]` commit, no changelog entry). Then tell the
+   person how to use it: say "take on the role of {name}" and the AI
+   answers `📐 Role: {name}`. Remind them they can come back to the
+   Role Builder any time to revise this role or build another.
 
 ## Evaluation Criteria
 

@@ -23,7 +23,7 @@ vendored `SKILL.md`. Editing the copy destroys the ability to tell
 
 | Skill | Origin | License | Vendored | Upstream status |
 |-------|--------|---------|----------|-----------------|
-| `token-audit` | **Original IME work** | — | 2026-08-10 | n/a |
+| `token-audit` | **Original IME work** | — | — | n/a |
 | `caveman` | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) | MIT | 2026-08-10 | Active, independently maintained |
 | `grill-me` | [mattpocock/skills](https://github.com/mattpocock/skills) | MIT | 2026-08-10 | Active. Router skill |
 | `grilling` | [mattpocock/skills](https://github.com/mattpocock/skills) | MIT | 2026-08-10 | Active. Carries the interview process |
