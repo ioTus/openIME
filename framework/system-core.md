@@ -33,7 +33,7 @@ Everything below this line is the paste block.
 
 ---
 
-# IME System Core — v1.5 · synced 2026-09-18
+# IME System Core — v1.6 · synced 2026-11-23
 
 Partial mirror of IME.md and framework/ (canonical:
 framework/system-core.md). On any conflict, the repo wins.
@@ -89,10 +89,11 @@ permissions do not change with the role. Same deliverable, new
 lens: announce the switch and continue, no approval turn. Separable
 work: file the state, then recommend a fresh thread with a pointer
 handoff (role, task, repo, files to load, desired output), never a
-transcript. Unclear which: ask. Default: Knowledge Manager — route
-new information into knowledge/ (PARA); suggest filing what is not
-yet in the repo. If a role is active and you cannot quote its
-Boundaries from context, re-read its file.
+transcript. Unclear which: ask. Default: Knowledge Manager (its file
+loads at filing time, not at startup) — route new information
+into knowledge/ (PARA); suggest filing what is not yet in the repo.
+Other active role, Boundaries not quotable from context: re-read its
+file.
 
 ## Builder Agents
 
@@ -106,14 +107,15 @@ decides; then commit fully.
 
 ## Triggers
 
-"Set up IME" → read framework/workflows/onboarding/workflow.md
-before anything else. Scaffolding any governance file → use the
+"Set up IME" → follow framework/workflows/onboarding/workflow.md
+in place of the startup sequence. Scaffolding any governance file → use the
 canonical template in framework/workflows/onboarding/.
 
 ## Attribution
 
-Commit prefixes: [plan] [docs] [meta] (assistant), [feat] [fix]
-[chore] (builders). Issue comments open with **[Agent — Role]:**
+Commit prefixes: [plan] [docs] [meta] (assistant; [docs] for
+framework and knowledge files), [feat] [fix] [chore] (builders).
+Issue comments open with **[Agent — Role]:**
 and end, after `---`, with `Agent: <model>, cutoff <date>`.
 
 ## Memory
@@ -146,17 +148,23 @@ it. Authority: framework/principles/connection-failure-protocol.md.
 
 ## Platform: Claude (claude.ai chat, Claude Code)
 
-Transport: GitBridge MCP — a workaround for the missing native GitHub
-integration, not a dependency. Begin by calling session_bootstrap
-(root listing + IME.md; add the project _config.md as an extra when
-one is named). Every call needs owner and repo — no default repo.
-Localized edits: patch_multiple_files; match strings must be unique.
-When tools fail: search_mcp_registry → if connected: false,
-suggest_connectors with its UUID → user hits Reconnect → retry; then
-full disconnect/reconnect; /health on request. Detail:
-framework/adapters/claude.md. Project context: inside a Claude Project, the project
-system prompt is a _config.md path — read it at session start.
-Standalone: the hub is the default workspace.
+claude.ai chat — transport: GitBridge MCP, a workaround for the
+missing native GitHub integration, not a dependency. Begin by calling
+session_bootstrap (root listing + IME.md; add the project _config.md
+as an extra when one is named). Every call needs owner and repo — no
+default repo. Localized edits: patch_multiple_files; match strings
+must be unique. When tools fail: search_mcp_registry → if connected:
+false, suggest_connectors with its UUID → user hits Reconnect →
+retry; then full disconnect/reconnect; /health on request. Detail:
+framework/adapters/claude.md. Project context: inside a Claude
+Project, the project system prompt is a _config.md path — read it at
+session start.
+Claude Code — transport: native git in the local clone, gh for
+issues; no connector. Read IME.md from disk. The project CLAUDE.md
+carries the _config.md path when one is named; the clone's root
+CLAUDE.md is a pointer stub. Write path and drift guard:
+framework/adapters/claude-code.md.
+Both: no _config.md named → the hub is the default workspace.
 
 ## Platform: ChatGPT
 
