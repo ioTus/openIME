@@ -11,8 +11,10 @@ exist because Replit cannot use git.
 ## Prerequisites
 
 - IME hub repo (`{hub-owner}/{hub-repo}`) is operational
-- GitBridge MCP is deployed and accessible
-- GitBridge MCP is added as a connector in the Claude project
+- The planning session can write to GitHub: on claude.ai, a GitBridge
+  MCP server deployed and added as a connector in the Claude project;
+  on Claude Code, a local clone with native git (then "via GitBridge"
+  below means a git commit and push)
 
 ---
 
@@ -32,8 +34,8 @@ creates and owns the GitHub repo.
 
 **Why Replit goes first:** Claude creating the repo first
 (even with `auto_init: false`) causes branch conflicts and
-sync discrepancies when Replit later connects. This is a
-hard-won sequencing lesson. The `create_repo` tool should not be
+sync discrepancies when Replit later connects. The order
+matters. The `create_repo` tool should not be
 used for Replit-backed spokes.
 
 ### Step 2 — Claude scaffolds governance files
@@ -52,18 +54,20 @@ Once the repo exists and Replit's sync is established:
    - `IME-AGENTS-replit.md` ← `spoke-ime-agents-replit-md.template.md`
 
    **Distributed asset — check the version record first:**
-   - `scripts/github-sync.ts` — do **not** copy from a hardcoded path.
+   - `scripts/github-sync.ts` and `scripts/test-github-sync.ts` — one
+     asset, copied together; do **not** copy from a hardcoded path.
      Read the version record in `framework/maintenance.md`
-     §Distributed asset discipline, copy the highest version listed,
-     and confirm with `npx tsx scripts/github-sync.ts version` once the
-     spoke is running.
+     §Distributed asset discipline and copy the highest version listed;
+     while the record names nothing, take both from the main branch of
+     the GitBridge repository. Confirm with
+     `npx tsx scripts/github-sync.ts version` at Phase 2 step 9, and
+     record the printed version in that table: the record is what the
+     next spoke copies from.
 
-     > **Why:** the canonical source is not guaranteed to hold the
-     > newest version. A spoke can carry an improvement for months
-     > that was never carried back while this document says to copy
-     > the canonical file unchanged, and copying it would ship a spoke
-     > whose `replit.md` instructs its builder to rely on behaviour
-     > the code does not have.
+     > **Why:** a spoke's copy can be improved without the change
+     > reaching the canonical source, so the record, not the path,
+     > says which copy is newest. Copying blindly can ship a spoke
+     > whose `replit.md` describes behaviour its code does not have.
 
    **Generate per-project:**
    - `ime.config.json`:
@@ -105,13 +109,16 @@ Once the repo exists and Replit's sync is established:
    - This also enables the sync utility to authenticate via
      the Replit connectors SDK (no PAT needed)
 
-6. **Replit Agent** installs required dependencies:
+6. **Replit Agent** installs required dependencies and adds the test
+   script:
    ```bash
    pnpm add @replit/connectors-sdk
    pnpm add -D tsx
    ```
-   These are needed for the sync utility's GitHub API
-   authentication and TypeScript execution respectively.
+   plus `"test:github-sync": "tsx scripts/test-github-sync.ts"` under
+   `scripts` in `package.json`. The dependencies are needed for the
+   sync utility's GitHub API authentication and TypeScript execution;
+   the script is how Phase 4 runs the utility's test.
 
 7. **User or Replit Agent** adds IME sections to `replit.md`:
    - Use the template at `framework/workflows/onboarding/replit-md-template.md`
@@ -123,8 +130,11 @@ Once the repo exists and Replit's sync is established:
 8. **User** triggers a pull from the Git panel so Replit has the
    governance files and sync utility locally
 
-9. **Replit Agent** reads `IME-AGENTS-replit.md` and confirms it
-   understands the collaboration model
+9. **Replit Agent** runs `npx tsx scripts/github-sync.ts version`; the
+   **User** records the printed version in the version record in
+   `framework/maintenance.md` §Distributed asset discipline. Then the
+   agent reads `IME-AGENTS-replit.md` and confirms it understands the
+   collaboration model
 
 ---
 
@@ -158,12 +168,14 @@ Once the repo exists and Replit's sync is established:
 16. **User** tells Replit to make a small change and sync using
     `npx tsx scripts/github-sync.ts "[test] verify sync"`
     — confirms the sync utility works AND handles upstream commits
-17. **Claude** verifies the test file survived Replit's push
+17. **Replit** runs the utility's test, `pnpm test:github-sync` (the
+    script added at step 6) — confirms the copy passes its own test
+18. **Claude** verifies the test file survived Replit's push
     — confirms no data loss from the two-agent push model
-18. **Replit** posts a test comment on an issue using the CLI:
-    `npx tsx scripts/github-sync.ts comment 1 "**[Replit]:** test"`
+19. **Replit** posts a test comment on an existing issue using the CLI:
+    `npx tsx scripts/github-sync.ts comment <issueNumber> "**[Replit]:** test"`
     — confirms the comment subcommand works
-19. Clean up test files
+20. Clean up test files
 
 ---
 
@@ -227,7 +239,7 @@ for syncing. The sync utility is the only path that works.
 
 ## Sequencing Lessons
 
-These are hard-won lessons from spoke onboarding:
+Rules that keep a Replit spoke working:
 
 - **Replit always creates the repo — even for new projects.**
   Claude creating it first (via `create_repo`) causes branch
@@ -244,10 +256,11 @@ These are hard-won lessons from spoke onboarding:
   the protocol — provide the working code. Without it, Replit Agent
   will attempt `git push` and fail. The canonical implementation
   is `scripts/github-sync.ts` in the GitBridge MCP repository; the
-  version record in `framework/maintenance.md` names the copy to take.
-- **Dependencies must be installed explicitly.** The onboarding
-  issue must tell Replit to install `@replit/connectors-sdk` and
-  `tsx`. Without these, the sync utility fails at runtime with
+  version record in `framework/maintenance.md` names the copy to take
+  (its main branch while the record is empty).
+- **Dependencies must be installed explicitly.** The first issue
+  written for the builder must tell Replit to install
+  `@replit/connectors-sdk` and `tsx`. Without these, the sync utility fails at runtime with
   missing module errors.
 - **Replit's GitHub integration is separate from git push/pull.**
   The integration gives Replit Agent access to issues and metadata

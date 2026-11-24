@@ -108,9 +108,10 @@ this repo, nothing about reading the hub reveals it.
 
 This section covers those files. Keep the list here; it starts empty.
 Until it names an asset, take the Replit sync utility and its test
-from the main branch of the GitBridge repository
-(`framework/workflows/onboarding/github-push-utility.md`) and record
-the version here the first time you copy them.
+from the main branch of the GitBridge repository (linked in
+`framework/workflows/onboarding/github-push-utility.md`) and record
+the version here when the spoke first prints it (`spoke-setup.md`
+Phase 2 step 9).
 
 ### Version record
 

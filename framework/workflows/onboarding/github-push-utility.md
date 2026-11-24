@@ -6,7 +6,8 @@ git push/pull operations with GitHub API calls.
 
 ## The canonical implementation
 
-**`scripts/github-sync.ts` in the GitBridge MCP repository** is the
+**`scripts/github-sync.ts` in the GitBridge MCP repository**
+(<https://github.com/ioTus/gitbridge-mcp>, main branch) is the
 canonical, repo-agnostic sync utility, copied into every new spoke during
 onboarding (Phase 1 of `spoke-setup.md`).
 
@@ -15,8 +16,9 @@ asset discipline before copying it.** The canonical path is not
 guaranteed to hold the newest version; the copy to take is named in
 that record.
 
-The behaviour documented below describes the current best version, not
-necessarily the file at the canonical path.
+The behaviour documented below is that of the GitBridge main-branch
+copy at the time of writing; check any copy with the `version`
+subcommand before relying on it.
 
 ## What it does
 
@@ -130,6 +132,15 @@ This subcommand exists because Replit Agent's JavaScript sandbox
 is not always available (e.g., in Lite mode). The CLI path ensures
 issue comments can always be posted regardless of the agent's
 execution context.
+
+### Print the version
+
+```bash
+npx tsx scripts/github-sync.ts version
+```
+
+Prints the utility's version so a copy can be checked against the
+record in `framework/maintenance.md` §Distributed asset discipline.
 
 ### Programmatic usage
 
