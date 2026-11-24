@@ -78,9 +78,11 @@ what a step is for before asking its question.
    section is for; that line is the `help` text.
 
 4. **Approve and write.** Show the complete file and its exact path,
-   `framework/roles/{slug}.md`. On an explicit yes, write it. Then
-   show the one-row addition to `_index.md` and write that on its
-   own yes. Read both back and confirm they landed.
+   `framework/roles/{slug}.md`, and get an explicit yes (Tier 2).
+   Then show the one-row addition to `_index.md` and get its own
+   yes (Tier 3). Two approvals, one commit: write the file and the
+   registry row together, as `IME.md` §Directory indexes requires.
+   Read both back and confirm they landed.
 
 5. **Hand off.** Tell the person how to use it: say "take on the
    role of {name}" and the AI answers `📐 Role: {name}`. Remind them
