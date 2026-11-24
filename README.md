@@ -121,7 +121,7 @@ IME is a repository with two layers:
 
 ```
 framework/          ← how things work (the operating system)
-  roles/            ← AI evaluation lenses (PM, UX advocate, etc.)
+  roles/            ← AI evaluation lenses (Knowledge Manager, Role Builder, your own)
   skills/           ← task execution playbooks (Agent Skills standard)
   workflows/        ← multi-agent coordination rules
   adapters/         ← platform connection guides
@@ -179,11 +179,16 @@ clone of the repo directly.
 | Windsurf | Local clone + MCP config |
 
 
-> **Scope note:** IME is designed to work with any AI tool that can
-> read and write files in a git repository. The current implementation
-> is validated with Claude Chat via GitBridge. Support for other tools
-> (Claude Code, Cursor, Windsurf, ChatGPT, Gemini) is in active testing
-> and will be documented in `framework/adapters/` as each is verified.
+> **Scope note:** IME works with any AI tool that can read and write
+> files in a git repository. The easiest path today is **Claude Code
+> with a local clone**: nothing to run, native git as the write path,
+> and the root `CLAUDE.md` already points the session at `IME.md`
+> (`framework/adapters/claude-code.md`). Claude on the web (claude.ai)
+> has no native GitHub access, so it needs you to run a GitBridge MCP
+> server and add it as a custom connector before it can read or write
+> your repo. ChatGPT connects through its native GitHub integration.
+> Cursor, Windsurf and Gemini are untested; each gets a file in
+> `framework/adapters/` as it is verified.
 
 Once connected, your AI tool can read your identity, your
 project context, your roles, and your knowledge — and it can
