@@ -20,6 +20,21 @@ Extract Role only apply to "connecting existing"), but
 keep the numbering sequential from the user's perspective.
 The user should see Step 1, 2, 3... with no gaps.
 
+The steps, in order, and when each applies:
+
+1. Classify
+2. Name
+3. Scaffold
+4. Migrate Files — connecting existing only
+5. Extract Role from System Prompt — connecting existing only
+6. Skills — optional, always offered
+7. Spoke Repository — only when context suggests a code repo
+8. Verify Connections
+9. Generate System Prompt
+10. Done
+
+After Step 0, count the ones that apply and number them from 1.
+
 ---
 
 ## Confirmation Gate
