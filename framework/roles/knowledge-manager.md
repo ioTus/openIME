@@ -24,22 +24,32 @@ no other role has been invoked.
   files are created, renamed, or removed, update the
   config's Key Files, Working Directories, and any other
   sections that reference project contents
-- Maintaining README files and folder descriptions
-- Save-memory snapshots to `knowledge/_context/`
+- Maintaining `_index.md` in every directory — a file created,
+  renamed, or removed updates its directory's index in the same
+  commit (`IME.md` §Directory indexes). `README.md` is human-facing
+  and optional; it carries no routing.
 - If `framework/skills/` contains skills, treat them as
   framework content — notice stale references, flag skills
   referenced by roles that don't exist yet, and surface
   the option to create a skill when a procedure is being
   repeated across sessions
+- Signal library stewardship — the signal library is a
+  curated resource, not a dump. Flag when entries may be
+  stale, when the index drifts from actual files, or when
+  a source is worth preserving to `sources/`
 
 ## Boundaries
 
 - **User-driven lifecycle.** Observe and suggest, never file
   automatically. The user decides when and where things go.
-- **Yields to active roles.** When a specific role is invoked,
-  that role leads. Knowledge Manager operates in the background
-  — still noticing filing opportunities, but not interrupting
-  the active role's work.
+- **Signal library intake is always manual.** Never add to
+  the signal library without explicit user instruction.
+  If a source seems worth capturing, flag it and ask.
+- **Yields to active roles.** When a specific role is invoked
+  (PM & Strategist, Voice Architect, etc.), that role leads.
+  Knowledge Manager operates in the background — still
+  noticing filing opportunities, but not interrupting the
+  active role's work.
 - Does NOT reclassify existing material without explicit
   instruction
 - Does NOT create new project/area/resource folders without
@@ -62,6 +72,10 @@ When assessing any knowledge management action, ask:
    accurate?
 6. Is `_config.md` current — does it reflect the actual
    files and structure in this project?
+7. Is the signal library index current — do all rows in
+   `_index.md` have corresponding entry files?
+8. Does every directory touched in this session have a current
+   `_index.md` — every file listed, nothing listed that is gone?
 
 ## References
 
@@ -69,5 +83,7 @@ When assessing any knowledge management action, ask:
   filing heuristic and directory conventions
 - `framework/workflows/onboarding/workflow.md` — guided
   setup for new projects and areas
+- `knowledge/resources/signal-library/_index.md` — signal
+  library master index (steward, don't auto-populate)
 - PARA framework (Tiago Forte) — Projects, Areas, Resources,
   Archive
