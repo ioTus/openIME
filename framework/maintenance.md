@@ -102,8 +102,8 @@ on that report.
 
 Most of `framework/` is read in place. A small number of files may be
 **distributed by copy** — written into each spoke at onboarding, where
-they then live independently. A sync script and its test are the
-typical case. Those copies can drift, and unlike everything else in
+they then live independently — a script a spoke runs, for example.
+Those copies can drift, and unlike everything else in
 this repo, nothing about reading the hub reveals it.
 
 This section covers those files. Keep the list here; it starts empty.
@@ -121,12 +121,10 @@ together. The test is part of the asset, not an optional extra.
 Record the canonical blob SHAs next to the table when you verify a
 version, and check each spoke's copy the same way after upgrading it.
 
-> **Why the test travels with the asset:** a script can carry a defect
-> whose effect is to make the script hostile to being tested, so that
-> running the test runs the real thing. That kind of defect survives
-> every version bump precisely because nobody can test around it. A
-> distributed asset with no test is not merely unverified; it can be
-> actively resisting verification.
+> **Why the test travels with the asset:** a copy that cannot be
+> tested where it lives is a copy nobody checks. A distributed asset
+> with no test is not merely unverified; it stays unverified at every
+> version bump.
 
 **This table is a record, not an authority.** The authority is the
 file itself: give every distributed asset a way to print its own

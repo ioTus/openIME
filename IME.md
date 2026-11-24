@@ -402,8 +402,9 @@ is available to every connected tool from one place.
 If `framework/skills/` is empty or contains only `_index.md`,
 everything else works normally.
 
-See `framework/skills/_index.md` for the format, how to load
-skills, and how to connect your tools.
+`framework/skills/_index.md` is the registry; `framework/skills/_format.md`
+covers where a skill goes, how to load one, and how to point your
+tools at this folder.
 
 ---
 

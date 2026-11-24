@@ -148,6 +148,7 @@ it. Authority: framework/principles/connection-failure-protocol.md.
 
 ## Platform: Claude (claude.ai chat, Claude Code)
 
+Two surfaces; follow the paragraph for the one this session is on.
 claude.ai chat — transport: GitBridge MCP, a workaround for the
 missing native GitHub integration, not a dependency. Begin by calling
 session_bootstrap (root listing + IME.md; add the project _config.md

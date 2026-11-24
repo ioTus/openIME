@@ -110,10 +110,9 @@ manually.
 
 You stop being the human clipboard between your tools.
 
-> **Current limitation:** File operations are currently limited
-> to text-based files (markdown, code, configs). Support for
-> images, videos, spreadsheets, and other binary assets is on
-> the roadmap.
+> **Current limitation:** Through an MCP bridge, file operations
+> are limited to text-based files (markdown, code, configs). A
+> local clone has no such limit.
 
 ## How It Works
 
@@ -172,7 +171,7 @@ clone of the repo directly.
 | Claude Chat | [GitBridge](https://github.com/ioTus/gitbridge-mcp) as MCP custom connector |
 | Claude Code | Local clone + CLAUDE.md pointing to IME.md |
 | Claude Cowork | Local clone as project folder |
-| ChatGPT | [GitBridge](https://github.com/ioTus/gitbridge-mcp) as MCP app (Developer Mode) |
+| ChatGPT | Native GitHub integration (Settings → Connectors) |
 | Gemini CLI | MCP server in settings.json |
 | Grok / xAI | Remote MCP server URL |
 | Cursor | Local clone + .mcp.json config |
@@ -187,8 +186,7 @@ clone of the repo directly.
 > has no native GitHub access, so it needs you to run a GitBridge MCP
 > server and add it as a custom connector before it can read or write
 > your repo. ChatGPT connects through its native GitHub integration.
-> Cursor, Windsurf and Gemini are untested; each gets a file in
-> `framework/adapters/` as it is verified.
+> Cursor, Windsurf and Gemini are untested here.
 
 Once connected, your AI tool can read your identity, your
 project context, your roles, and your knowledge — and it can

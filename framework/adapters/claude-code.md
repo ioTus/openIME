@@ -1,11 +1,9 @@
 # Claude Code Adapter
 
 Claude Code (desktop app, CLI, and cloud sessions) is a distinct
-platform from claude.ai chat. Verified: the claude.ai
-settings/preferences field does **not** reach Claude Code sessions —
-a no-tools probe for the System Core block returned "absent," and the
-System-prompt size in the context panel is invariant across
-preference edits.
+platform from claude.ai chat: the claude.ai settings/preferences
+field does **not** reach Claude Code sessions, so the durable layer
+is deployed separately here.
 
 ## Prompt architecture (mirrors claude.ai's two layers)
 
@@ -41,7 +39,9 @@ the global deployment safe in non-IME projects.
 ## Write path
 
 The transport on this platform is native `git` in the local clone,
-with `gh` for issues. The approval rules (draft, show, explicit yes,
+with `gh` (the GitHub CLI, installed and authenticated with `gh auth
+login`) for issues. Without `gh`, commits still work and issues are
+filed from the GitHub web UI. The approval rules (draft, show, explicit yes,
 Tier 2 to create, Tier 3 to update, Tier 4 to delete) do not change.
 `IME.md` §Write Discipline maps onto git like this:
 
@@ -54,9 +54,9 @@ Tier 2 to create, Tier 3 to update, Tier 4 to delete) do not change.
 | §Transport — never reproduce unrelated content | Edit the file in place on disk; nothing is retyped. An edit tool that takes a match string must match exactly once |
 | 7 — verify after writing | After the push: `git fetch`, then `git log -1 --stat origin/<branch>` shows the commit on the remote and `git status -sb` shows the branch level with it. A write is done when the remote shows it, not when the command returns |
 
-Commit messages carry the `IME.md` attribution prefixes. Issue
-comments go through `gh issue comment` with the standard opening and
-trailer.
+Commit prefixes, and the opening and trailer of an issue comment,
+are the System Core's §Attribution (`framework/system-core.md`).
+Issue comments go through `gh issue comment`.
 
 ## Platform Memory
 

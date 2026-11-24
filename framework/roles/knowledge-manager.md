@@ -36,7 +36,7 @@ no other role has been invoked.
 - Signal library stewardship — the signal library is a
   curated resource, not a dump. Flag when entries may be
   stale, when the index drifts from actual files, or when
-  a source is worth preserving to `sources/`
+  a source is worth preserving in full alongside the index
 
 ## Boundaries
 

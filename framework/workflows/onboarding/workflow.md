@@ -57,9 +57,9 @@ Then proceed only on explicit confirmation.
 Determine which situation the user is in:
 
 - **New setup** — Fresh workspace: the durable layer (the System
-  Core block from `framework/system-core.md`) was just deployed to
-  the platform's always-on prompt, and nothing under `knowledge/`
-  is the user's yet. First time connecting to IME.
+  Core block from `framework/system-core.md`) is being deployed to
+  the platform's always-on prompt for the first time, and nothing
+  under `knowledge/` is the user's yet.
 - **Connecting existing** — Workspace already has context,
   files, or a system prompt. Hooking it into IME.
 - **Adding a folder** — Already running a full IME system
@@ -185,8 +185,8 @@ list them and offer two options:
 
 > "These files already exist in this workspace. Want to
 > migrate them into your IME? I can handle it here
-> (slower — I'll transfer each file through my connection
-> to the repo), or you can add them to the repo directly (faster —
+> (slower — I'll copy each file into the repo one by one),
+> or you can add them to the repo yourself (faster —
 > just drag and drop into `knowledge/projects/{slug}/`
 > or `knowledge/areas/{slug}/` in the repo). Which do
 > you prefer?"
@@ -270,8 +270,8 @@ or doesn't know what they are, skip quickly and move on.
 2. Help copy or move skill folders into `framework/skills/`
 3. Verify each has a valid `SKILL.md` with frontmatter
 4. Offer to help configure their tools to point at IME as
-   the central skills source (see `framework/skills/_index.md`
-   for platform-specific guidance)
+   the central skills source (see `framework/skills/_format.md`
+   §Connecting tools to IME skills)
 
 **If the user doesn't have skills or doesn't know what they
 are:**
@@ -347,7 +347,8 @@ not show which platform this is, ask; then follow its adapter:
 | Claude Code | `~/.claude/CLAUDE.md` | `CLAUDE.md` in the project directory — the clone's root `CLAUDE.md` when the project is the hub itself | `framework/adapters/claude-code.md` |
 | ChatGPT | Settings → Personalization → Custom Instructions | The ChatGPT Project's instructions | `framework/adapters/chatgpt.md` |
 
-Ask whether the durable layer is already deployed — the AI cannot
+Check whether the durable layer is deployed: on Claude Code, read
+`~/.claude/CLAUDE.md`; on other platforms ask, since the AI cannot
 read its own prompt. If not, help set it up from the adapter: the
 universal block plus the platform's own section, pasted verbatim
 with its version stamp. Once it is confirmed, hand over the
