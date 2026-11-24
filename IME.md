@@ -393,13 +393,13 @@ Agent Skills open standard (agentskills.io). They define how
 to execute specific tasks well — which tools to use, in what
 order, and what mistakes to avoid.
 
-IME does not ship with skills. You bring or create them. If
-you have skills, they live in `framework/skills/`. This gives
-every connected tool a single source for your procedural
-expertise.
+Skills are optional. The registry at `framework/skills/_index.md`
+lists what this instance has; bring your own, create them, or
+remove any you do not use. Whatever lives in `framework/skills/`
+is available to every connected tool from one place.
 
-Skills are optional. If `framework/skills/` is empty or
-contains only `_index.md`, everything else works normally.
+If `framework/skills/` is empty or contains only `_index.md`,
+everything else works normally.
 
 See `framework/skills/_index.md` for the format, how to load
 skills, and how to connect your tools.
