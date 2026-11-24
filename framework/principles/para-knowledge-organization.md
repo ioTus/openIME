@@ -9,7 +9,8 @@
 The `knowledge/` directory follows Tiago Forte's PARA framework
 (Projects, Areas, Resources, Archive) as its organizational
 principle. This document defines the filing rules so that every
-session — across every project — organizes knowledge consistently.
+session of Claude — across every project — organizes knowledge
+consistently.
 
 ## The Filing Heuristic
 
@@ -46,9 +47,6 @@ in order:
 - `framework/` — This is IME's operating system (roles,
   workflows, principles, adapters). It is infrastructure,
   not personal knowledge. PARA does not apply here.
-- `knowledge/_context/` — Save-memory snapshots are operational
-  state, not filed knowledge. The underscore prefix signals
-  this is a system utility.
 
 ## Project-First Filing
 
@@ -59,18 +57,20 @@ complete working context for that effort.
 
 ## User-Driven Lifecycle
 
-PARA categories are managed by the user, not automated by the AI.
-The AI's role is to **observe and suggest, never act unilaterally.**
+PARA categories are managed by the user, not automated by Claude.
+Claude's role is to **observe and suggest, never act unilaterally.**
 
-What the AI should do:
+What Claude should do:
 - Notice when a topic doesn't have a home yet and suggest where
-  it might belong
+  it might belong: "This sounds like a new project. Want me to
+  create `knowledge/projects/{project-slug}/`?"
 - Suggest a name and category, then wait for confirmation
 - Ask before filing anything into a new or existing folder
 
-What the AI should never do:
+What Claude should never do:
 - Create new project/area/resource folders without asking
-- Move items between categories without explicit instruction
+- Move items between categories (e.g., project to archive)
+  without explicit instruction
 - Assume a project is complete
 - Reclassify existing material
 
@@ -80,9 +80,17 @@ when items move between categories.
 ## Directory Conventions
 
 - Use lowercase kebab-case for folder names: `my-project`,
-  `business-ops`, `design-patterns`
-- Each folder gets a README.md explaining what it contains
-  (optional but encouraged for projects)
+  `home-admin`, `reading-list`
+- Each folder gets an `_index.md` listing what it holds — required,
+  see `IME.md` §Directory indexes. A `README.md` is optional and
+  human-facing only.
 - No required metadata or frontmatter — PARA is just folders
 - Organize within project folders however makes sense for
   that project
+
+## Terminology Note
+
+"Claude Project" (capitalized) refers to the context scope in
+claude.ai — a system prompt, connectors, and conversations.
+"Project" (lowercase) refers to a PARA project in
+`knowledge/projects/`. These overlap but aren't the same.

@@ -24,11 +24,12 @@ user-owned by default — not platform-owned by default.
 - The user can disconnect from any AI platform and retain all
   their knowledge, context, and operating rules
 
-## How this applies to product decisions
+## How this applies to anything built on IME
 
 - Open-source tooling and protocols are the default
-- Paid products add convenience and experience, not lock-in
+- A paid product built on IME adds convenience and experience, not
+  lock-in
 - If a feature would make migration harder, it needs explicit
   justification
-- International compliance complexity is bypassed through
-  local-first architecture (the user holds their own data)
+- Local-first architecture keeps compliance simple: the user holds
+  their own data
