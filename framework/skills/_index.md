@@ -1,161 +1,34 @@
-# Skills — System Overview
+# Skills — Registry
+
+Skills are portable task execution playbooks following the Agent
+Skills open standard (agentskills.io). This file is the registry
+only — `framework/skills/` is listed at every session startup, so
+it stays minimal.
+
+**Invocation** records the upstream default, not a restriction.
+Standing policy: reach for any registered skill when it fits the
+task. Two exceptions — `grill-me` sets `disable-model-invocation`
+upstream, and `caveman` visibly changes output style, so announce
+it rather than switching silently.
 
 ---
 
-## What Skills Are
+## Available Skills
 
-Skills are portable task execution playbooks following the
-Agent Skills open standard (agentskills.io). A skill is a
-folder containing a `SKILL.md` file with instructions for
-how to accomplish a specific task well — which tools to use,
-in what order, and what mistakes to avoid.
+| Folder | Skill | Invocation | Source | Use when |
+|--------|-------|------------|--------|----------|
+| `caveman/` | Caveman | User | Julius Brussee (MIT) | Long-form output sessions where replies routinely run past ~1.5–2k tokens. **Net-negative on terse work** — it adds ~1–1.5k input tokens per turn. See `_sources.md` |
+| `distill-large-source/` | Distill Large Source | Model | **IME** | Working from a source too large for context — a `file_too_large` read, a long transcript — in resumable passes that keep state in a committed notes file |
+| `grill-me/` | Grill Me | User | Matt Pocock (MIT) | Router — runs a `grilling` session. User-invoked by design |
+| `grilling/` | Grilling | Model | Matt Pocock (MIT) | Stress-testing a plan, decision, or idea by interviewing down each branch of the design tree |
+| `prompt-builder/` | Prompt Builder | Model | **IME** | Building a standalone prompt — a Project system prompt, or one handed to another tool or person. Routes skills to `skill-creator`, agent documents to `writing-for-agents`, existing prompts to `/claude-api prompt-audit` |
+| `token-audit/` | Token Audit | Model | **IME** | Measuring what a repo's always-loaded files cost per session, and cutting them without losing function. Ships `scripts/measure.py` |
+| `writing-for-agents/` | Writing for Agents | Model | Matt Pocock (MIT) | Writing any document an agent consumes — a skill, `AGENTS.md`/`CLAUDE.md`, or a doc reached by a pointer |
 
-Skills are distinct from roles. Roles define *perspective
-and judgment* — how to see the world. Skills define
-*procedure* — how to execute a task. A role might say
-"think like a PM." A skill says "here's how to write a
-feature spec."
-
-IME does not ship with skills. You bring or create them.
-This directory is the centralized home for your skills so
-that every connected tool can access them from one place.
+Skills sourced from others carry a `NOTICE.md` in their folder and a
+row in `_sources.md`. **A folder with no `NOTICE.md` is original IME work.**
 
 ---
 
-## How Skills Relate to IME
-
-| IME Primitive | Answers | Example |
-|---------------|---------|---------|
-| **Role** | *Who am I and what do I optimize for?* | PM Strategist — evaluate tradeoffs, scope features |
-| **Skill** | *How do I execute this specific task?* | Write a feature spec — these steps, this format, these gotchas |
-| **Workflow** | *How do agents coordinate?* | PM-Builder — handoff rules, commit conventions |
-| **Adapter** | *How does this platform connect?* | Claude — MCP bridge, tool inventory |
-| **Principle** | *What standing decisions apply?* | Data sovereignty — users own their files |
-
-Skills are optional. Everything else in IME works without
-them. If you have skills, centralizing them here makes them
-portable and accessible across all your tools.
-
----
-
-## The Agent Skills Open Standard
-
-Skills follow the format defined at agentskills.io. The
-minimum structure is:
-
-```
-framework/skills/
-  {skill-name}/
-    SKILL.md          ← required: frontmatter + instructions
-    scripts/          ← optional: executable code
-    references/       ← optional: supporting docs
-    assets/           ← optional: templates, images, etc.
-    examples/         ← optional: input/output examples
-```
-
-### SKILL.md format
-
-```markdown
----
-name: skill-name
-description: What this skill does and when to use it.
----
-
-# Skill Name
-
-## Instructions
-[Step-by-step guidance]
-
-## Examples
-[Concrete examples of usage]
-
-## Gotchas
-[Where the AI will typically go wrong — the highest-signal
-section in any skill]
-
-## Guidelines
-[Constraints, output format, quality checks]
-```
-
-The `description` field is the trigger — it tells the AI
-when to discover and invoke this skill. Be explicit and
-specific. If the trigger is vague, the skill won't get used.
-
-### Key conventions
-
-- Keep `SKILL.md` under 500 lines — it's a playbook, not
-  an encyclopedia
-- One skill per task — if it's two separate jobs, make two
-  skills
-- Gotchas are per-skill — document every failure you've seen
-- Include output examples — show the model, don't just
-  describe
-- Use numbered steps for precise tasks, looser guidance for
-  creative tasks
-
----
-
-## Loading Skills into IME
-
-### If you have existing skills
-
-1. Copy your skill folders into `framework/skills/`
-2. Ensure each has a valid `SKILL.md` with frontmatter
-3. Your AI assistant can help verify the format
-
-### If you want to create new skills
-
-Use your preferred tool's skill creation workflow, or
-create them manually following the format above. Once
-created, place them in `framework/skills/` to centralize
-them.
-
-### Connecting tools to IME skills
-
-Each tool has its own method for discovering skills. The
-goal is to point your tools at this repo so they read
-skills from here instead of (or in addition to) their
-local skill directories.
-
-**Claude Code:** Symlink or configure skill paths to point
-at your IME repo's `framework/skills/` directory.
-
-**Cursor / VS Code:** Reference the repo path in your
-skills configuration.
-
-**Other tools:** Any tool supporting the Agent Skills open
-standard can read from this directory. Consult the tool's
-documentation for how to configure external skill sources.
-
-See `framework/adapters/` for platform-specific notes on
-skill integration.
-
----
-
-## Associating Skills with Roles
-
-Roles can optionally declare which skills they commonly use
-via an `## Associated Skills` section. This is advisory —
-any skill can be invoked with any role. The association just
-helps the AI know which skills are most relevant when a
-particular role is active.
-
----
-
-## Maintenance
-
-Skills can go stale as models improve and workflows evolve.
-Periodically review your skills to ensure they still produce
-the output quality you expect. Signs a skill needs updating:
-you find yourself iterating on its output, or a model update
-changes how it interprets the instructions.
-
-Automation for skill maintenance is out of scope for IME.
-The tools that execute skills are better positioned to track
-usage and flag staleness.
-
----
-
-*Skills follow the Agent Skills open standard (agentskills.io)
-— a portable format supported across Claude, Codex, Cursor,
-GitHub Copilot, and 40+ other tools.*
+*Provenance and upstream tracking: `_sources.md`.
+IME placement and registration conventions: `_format.md`.*
